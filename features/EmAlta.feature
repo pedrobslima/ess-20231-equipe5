@@ -20,4 +20,10 @@ Scenario: Selecionar outra aba
     Then Eu ejo a aba "Semana" selecionada
     And Eu vejo o anime "One Piece" com "385" assistidos na semana
     And Eu vejo o anime "Boku no Hero" com "320" assistidos na semana
-    And Eu vejo o anime "Black Clover" com "270" assistidos na semana  
+    And Eu vejo o anime "Black Clover" com "270" assistidos na semana
+
+
+Scenario: Adicionando cenário para roteirp
+Given Estou no git bash
+When Eu adiciono um scenario novo
+Then Eu tenho minha branch com alterações Unstaged
