@@ -13,3 +13,7 @@ Then a janela é fechada e estou de volta na janela de criação do post
 And é indicado que “screenshot.png” está anexada ao post
 And seleciono a opção de publicar o meu post 
 Then minha review é publicada, com o campo de usuário sendo “pedro12”
+
+Cenário de falha 1
+
+Cenário de falha 2
