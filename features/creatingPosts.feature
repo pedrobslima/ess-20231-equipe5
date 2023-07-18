@@ -19,8 +19,6 @@ Then aparece um pop-up de erro na janela
 
 Cenário de falha 2
 
-<<<<<<< HEAD
 MEU QUINTO CENÁRIO
-=======
+
 CENÁRIO 4
->>>>>>> dev
