@@ -17,3 +17,5 @@ Then minha review é publicada, com o campo de usuário sendo “pedro12”
 Cenário de falha 1
 
 Cenário de falha 2
+
+CENÁRIO 4
