@@ -15,5 +15,6 @@ And seleciono a opção de publicar o meu post
 Then minha review é publicada, com o campo de usuário sendo “pedro12”
 
 Cenário de falha 1
+Then aparece um pop-up de erro na janela
 
 Cenário de falha 2
