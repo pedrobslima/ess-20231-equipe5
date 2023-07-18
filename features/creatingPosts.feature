@@ -18,3 +18,5 @@ Cenário de falha 1
 Then aparece um pop-up de erro na janela
 
 Cenário de falha 2
+
+MEU QUINTO CENÁRIO
