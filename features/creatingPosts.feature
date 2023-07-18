@@ -3,7 +3,7 @@ And eu quero criar uma review sobre um episódio que acabei de assistir,
          com uma imagem e a tag “Review”
 And a tag “Review” já existe
 When seleciono a opção de criar um novo post
-And escrevo no título do post “TITULO ALTERADO”
+And escrevo no título do post “TITULO ALTERADO DE NOVO!”
 And escolho a tag “Review”
 And escrevo no corpo “Essa segunda temporada de Jujutsu Kaisen está muito boa! Episódio fantástico!”
 And seleciono a opção de anexar um arquivo local de mídia
