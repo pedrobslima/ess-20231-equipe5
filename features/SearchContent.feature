@@ -42,35 +42,3 @@ Feature: Search Content
         And the user select the buttom to clear recent searchs
         Then the tags "comedia" and "terror" are removed from system
         And are not displayed anymore
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    Scenario: SearchBar Hints
-        Given The user focus on SearchBar
-        And the user has recently searched only for "comedia" and "terror"
-        Then will be diplayed above the searchBar buttons with the tags "comedia" and "terror"
-
-    Scenario: SearchBar AutoFill
-        Given The user focus on SearchBar
-        And the searchBar has hinted the tags "comedia" and "terror"
-        And the user select "comedia"
-        Then the searchBar will be overwrited by the tag "comedia"
-
-    Scenario: Clear Hints
-        Given The user focus on SearchBar
-        And the searchBar has hinted the tags "comedia" and "terror"
-        And the user select the buttom to clear the hints
-        Then the tags "comedia" and "terror" will not be displayed anymore
-
-        
