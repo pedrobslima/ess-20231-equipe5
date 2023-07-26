@@ -6,6 +6,6 @@ __pycache__/
 *.swp
 frontend/package-lock.json
 .vercel
-/node_modules
+node_modules
 .json
 .gitignore
