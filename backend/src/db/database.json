@@ -1,0 +1,21 @@
+{
+    "tags": ["Review"],
+    
+    "posts": [{
+        "id": "01",
+        "user": "pedro12",
+        "tags": ["Review"],
+        "tirulo": "Review episódio 2 de Jujutsu Kaisen",
+        "corpo": "Essa segunda temporada de Jujutsu Kaisen está muito boa! Episódio fantástico!",
+        "anexados": []
+    },
+    {
+        "id": "02",
+        "user": "pedro12",
+        "tags": ["Review"],
+        "tirulo": "Review episódio 3 de Jujutsu Kaisen",
+        "corpo": "Essa segunda temporada de Jujutsu Kaisen está muito boa! Episódio fantástico!",
+        "anexados": []
+    }
+    ]
+  }
