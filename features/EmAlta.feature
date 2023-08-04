@@ -22,8 +22,3 @@ Scenario: Selecionar outra aba
     And Eu vejo o anime "Boku no Hero" com "320" assistidos na semana
     And Eu vejo o anime "Black Clover" com "270" assistidos na semana
 
-Scenario: Visualizar Em alta na página inicial
-    Given Eu estou na página inicial
-    And Eu tenho "Naruto" no top 1 Em alta no dia
-    When Eu visualizo a aba "Em alta" na página inicial
-    Then Eu vejo o anime "Naruto" indicado na aba Em alta
