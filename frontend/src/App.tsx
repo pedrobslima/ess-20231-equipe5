@@ -1,23 +1,22 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import CriarPost from "./app/home/pages/CriarPost";
-import BuscarPost from "./app/home/pages/BuscarPost";
+import CreateTest from "./app/home/pages/CreateTest";
+import ListTests from "./app/home/pages/ListTests";
 
 const router = createBrowserRouter([
   {
     path: "*",
-    Component: CriarPost,
+    Component: CreateTest,
   },
   {
-    path: "/create-post",
-    Component: CriarPost,
+    path: "/create-test",
+    Component: CreateTest,
   },
   {
-    path: "/search",
-    Component: BuscarPost,
+    path: "/tests",
+    Component: ListTests,
   },
 ]);
 
 export default function App() {
   return <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />;
-  //return <h1>teste</h1>;
 }
