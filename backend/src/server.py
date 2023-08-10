@@ -7,8 +7,8 @@ banco_animes = lista_animes
 
 @app.get('/em-alta')
 def listar_animes():
-    nomes_animes = []
-    for i in banco_animes:
-        nomes_animes.append(i.nome_anime)
-        
-    return nomes_animes    
+    #nomes_animes = []
+    #for i in banco_animes:
+    #    nomes_animes.append(i.nome_anime)
+    return banco_animes
+    #return nomes_animes
