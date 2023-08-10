@@ -2,4 +2,4 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-@app.get('/em-alta')   
+@app.get('/em-alta')
