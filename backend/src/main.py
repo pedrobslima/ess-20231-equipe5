@@ -35,7 +35,7 @@ async def root():
             "description": "Item not found",
         }
     })
-async def posts(post_id):
+async def get_post(post_id: str) -> HttpResponseModel:
     '''
     Get post by ID
     Parameters:
@@ -47,8 +47,8 @@ async def posts(post_id):
     Raises:
     - HTTPException 404: If the post is not found.
     '''
-    item_get_response = ItemService.get_item(post_id)
-    return item_get_response
+    post_get_response = ItemService.get_item(post_id)
+    return post_get_response
 
 @app.get("/animes")
 async def animes():

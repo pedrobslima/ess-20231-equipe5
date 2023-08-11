@@ -8,7 +8,8 @@
             "title": "Review episódio 2 de Jujutsu Kaisen",
             "body": "Essa segunda temporada de Jujutsu Kaisen está muito boa! Episódio fantástico!",
             "attached": ["screenshot.png"],
-            "comments": []
+            "comments": [],
+            "views": 2
         },
         "02": {
         "user": "pedro12",
@@ -21,7 +22,8 @@
             "user": "anselmo13",
             "body": "Ok então."
             }
-        ]
+        ],
+        "views": 5
     }
 }
 }
