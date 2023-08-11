@@ -4,10 +4,82 @@ from pymongo import MongoClient, errors
 from pymongo.collection import Collection, IndexModel
 from src.config.config import env
 from logging import INFO, WARNING, getLogger
+import json
 
 logger = getLogger('uvicorn')
 
 class Database():
+    def __init__(self):
+        db_file = open('src/db/database.json', 'r')
+        self.db: dict = json.load(db_file)
+        self.selections: list = ["tags", "posts", "comments"]
+        db_file.close()
+
+    def get_post_by_id(self, post_id: str) -> dict | None:
+        '''Get post by id
+
+        Parameters
+        - post_id: 
+            The id of the comments original post    
+
+        Returns
+        - post: 
+            A dictionary containing the posts info
+        - None
+            In case it doesn't find the post
+
+        Raises
+        - KeyError(?): 
+            In case it doesn't find the post 
+        '''
+        try:
+            post: dict = self.db["posts"][post_id]
+            return post
+        except KeyError:
+            print("Post non-existent")
+            return None
+
+
+    def get_comments_by_post(self, post_id: str) -> list | None:
+        '''Get a list of comments by a posts id
+
+        Parameters
+        - post_id: 
+            The id of the comments original post    
+
+        Returns
+        - post["comments"]: 
+            A list of comments of the searched post
+        '''
+
+        post = self.get_post_by_id(post_id)
+
+        if(not post):
+            return None
+
+        return post["comments"]
+    
+    def get_item(self, category: str, item: str) -> dict | list | None:
+        '''Get a item
+
+        Parameters
+        - category:
+            The category of the item, if it wants posts, comments or tags
+        - item: 
+            The id of the item, could be the id of a post or something else
+
+        Returns
+        - response: 
+            The wanted item
+        '''
+        response: None
+        if(category == "post"):
+            response = self.get_post_by_id(item)
+        elif(category == "comments"):
+            response = self.get_comments_by_post(item)
+        return response
+
+'''class Database():
 
     ID_LENGTH = 8
 
@@ -208,4 +280,4 @@ class Database():
         - list:
             A list of all items in the collection.
 
-        """
+        """'''
