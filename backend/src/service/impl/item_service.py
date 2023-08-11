@@ -5,9 +5,9 @@ from src.db.__init__ import database as db
 class ItemService(ItemServiceMeta):
 
     @staticmethod
-    def get_item(item_id: str) -> HttpResponseModel:
-        """Get item by id method implementation"""
-        item = db.get_item_by_id('items', item_id)
+    def get_item(item_id: str, ctg: str) -> HttpResponseModel:
+        """Get item by id and category method implementation"""
+        item = db.get_item(item_id, ctg)
         if not item:
             return HttpResponseModel(
                 message=HTTPResponses.ITEM_NOT_FOUND().message,
@@ -20,8 +20,8 @@ class ItemService(ItemServiceMeta):
             )
     
     @staticmethod
-    def get_items():
-        """Get items method implementation"""
+    def get_comments(post_id: str) -> HttpResponseModel:
+        """Get comments method implementation"""
         items = db.get_all_items('items')
         if not items:
             return HttpResponseModel(

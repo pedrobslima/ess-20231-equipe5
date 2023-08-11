@@ -1,17 +1,17 @@
 {
     "tags": ["Review", "Piada", "Easter Egg"],
 
-    "posts": [{
-        "id": "01",
-        "user": "pedro12",
-        "tags": ["Review"],
-        "title": "Review episódio 2 de Jujutsu Kaisen",
-        "body": "Essa segunda temporada de Jujutsu Kaisen está muito boa! Episódio fantástico!",
-        "attached": ["screenshot.png"],
-        "comments": []
-    },
-    {
-        "id": "02",
+    "posts": {
+        "01": {
+            "user": "pedro12",
+            "tags": ["Review"],
+            "title": "Review episódio 2 de Jujutsu Kaisen",
+            "body": "Essa segunda temporada de Jujutsu Kaisen está muito boa! Episódio fantástico!",
+            "attached": ["screenshot.png"],
+            "comments": [],
+            "views": 2
+        },
+        "02": {
         "user": "pedro12",
         "tags": ["Review"],
         "title": "Review episódio 3 de Jujutsu Kaisen",
@@ -21,7 +21,9 @@
             "com_id": "01",
             "user": "anselmo13",
             "body": "Ok então."
-        }]
+            }
+        ],
+        "views": 5
     }
-    ]
-  }
+}
+}
