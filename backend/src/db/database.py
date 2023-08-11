@@ -78,6 +78,14 @@ class Database():
         elif(category == "comments"):
             response = self.get_comments_by_post(item)
         return response
+    
+    def create_post(self, post_id: str, the_actual_post: dict) -> bool | None:
+        check = self.get_post_by_id(post_id)
+        if(not check):
+            # abrir o json e fazer o update do ngc
+            return True
+        return False
+
 
 '''class Database():
 

@@ -20,19 +20,18 @@ class ItemService(ItemServiceMeta):
             )
     
     @staticmethod
-    def get_comments(post_id: str) -> HttpResponseModel:
-        """Get comments method implementation"""
-        items = db.get_all_items('items')
-        if not items:
+    def create_post(post_id: str, main_post: dict) -> HttpResponseModel:
+        """Post a new post method implementation"""
+        response = db.create_post(post_id, main_post)
+        if not response:
             return HttpResponseModel(
-                message=HTTPResponses.ITEM_NOT_FOUND().message,
-                status_code=HTTPResponses.ITEM_NOT_FOUND().status_code,
+                message=HTTPResponses.SERVER_ERROR().message,
+                status_code=HTTPResponses.SERVER_ERROR().status_code,
             )
         
         return HttpResponseModel(
-                message=HTTPResponses.ITEM_FOUND().message,
-                status_code=HTTPResponses.ITEM_FOUND().status_code,
-                data=items,
+                message=HTTPResponses.ITEM_CREATED().message,
+                status_code=HTTPResponses.ITEM_CREATED().status_code,
             )
     
     # TODO: implement other methods (create, update, delete)

@@ -158,6 +158,3 @@ async def home():
     </html>
     """
     return HTMLResponse(content=html_content, status_code=200)
-
-#@app.post("/posts")
-#async def publish():

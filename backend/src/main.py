@@ -4,6 +4,7 @@ from src.api.router import api_router
 from fastapi.responses import HTMLResponse
 from src.schemas.response import HttpResponseModel
 from src.service.impl.item_service import ItemService
+from src.schemas.post_schema import NewPost, create_id, assemble
 
 app = FastAPI()
 
@@ -75,3 +76,9 @@ async def home():
     </html>
     """
     return HTMLResponse(content=html_content, status_code=200)
+
+@app.post("/posts")
+async def publish(post: NewPost):
+    post_id = create_id()
+    response = ItemService.create_post(post_id, assemble(post))
+    return response
