@@ -86,7 +86,7 @@ class Database():
     
     def create_post(self, post: dict, post_img: bytes | None = None) -> bool:
         '''
-        Will try to choose a random id por the post, create and then store it (and its image) in the database.
+        Will try to choose a random id for the post, create and then store it (and its image) in the database.
         If it can't generate an unused id after 3 tries, it gives up. 
 
         Parameters

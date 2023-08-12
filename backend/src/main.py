@@ -19,7 +19,7 @@ app.add_middleware(
 
 app.include_router(api_router)
 
-@app.get("/")
+"""@app.get("/")
 async def root():
     return {"GET": "Bem vindo à ela inicial!"}
 
@@ -54,10 +54,10 @@ async def get_post(post_id: str) -> HttpResponseModel:
 
 @app.get("/animes")
 async def animes():
-    return {"GET": "receber animes organizados por 'default' "}
+    return {"GET": "receber animes organizados por 'default' "}"""
 
 
-@app.get("/animes/{order_by}")
+'''@app.get("/animes/{order_by}")
 async def animes_param(order_by):
     retorno = "receber animes organizados por '{0}' ".format(str(order_by))
     return {"GET": retorno}
@@ -76,9 +76,9 @@ async def home():
         </body>
     </html>
     """
-    return HTMLResponse(content=html_content, status_code=200)
+    return HTMLResponse(content=html_content, status_code=200)'''
 
-@app.post("/new_post", response_model=HttpResponseModel,)
+"""@app.post("/new_post", response_model=HttpResponseModel,)
 async def publish_post(post: NewPost, image: UploadFile = File(None)) -> HttpResponseModel:
     '''
     Post/Publish a post on the forum
@@ -115,4 +115,4 @@ async def publish_comment(comment: NewComment, post_id: str) -> HttpResponseMode
     - HTTPException 500: If the server can't generate a unique id for the comment.
     '''
     comnt_create_response = ItemService.create_comment(comment.assemble(), post_id)
-    return comnt_create_response
+    return comnt_create_response"""
