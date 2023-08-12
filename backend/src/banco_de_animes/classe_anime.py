@@ -7,6 +7,7 @@ class Anime(BaseModel):
     nome_anime: str
     avaliacao_anime: float
     qtd_assistido: List[date]
+    assistidos_periodo: Optional[int] = 0
     
 lista_animes:List[Anime] = []
 
@@ -17,3 +18,15 @@ anime_kimetsu = Anime(nome_anime='Kimetsu no Yaiba', avaliacao_anime=8.7, qtd_as
 lista_animes.append(anime_naruto)
 lista_animes.append(anime_onepiece)
 lista_animes.append(anime_kimetsu)
+
+def cont_ano():
+    pass
+
+def cont_trimestre():
+    pass
+    
+def cont_semana():
+    pass
+
+def cont_dia():
+    pass    
