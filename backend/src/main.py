@@ -4,7 +4,8 @@ from src.api.router import api_router
 from fastapi.responses import HTMLResponse
 from src.schemas.response import HttpResponseModel
 from src.service.impl.item_service import ItemService
-from src.schemas.post_schema import NewPost, assemble
+from src.schemas.post_schema import NewPost
+from src.schemas.comnt_schema import NewComment
 
 app = FastAPI()
 
@@ -25,15 +26,15 @@ async def root():
 @app.get("/{post_id}", 
     response_model=HttpResponseModel,
     status_code=status.HTTP_200_OK,
-    description="Retrieve an item by its ID",
+    description="Retrieve an post by its ID",
     tags=["items"],
     responses={
         status.HTTP_200_OK: {
             "model": HttpResponseModel,
-            "description": "Successfully got item by id",
+            "description": "Successfully got post by id",
         },
         status.HTTP_404_NOT_FOUND: {
-            "description": "Item not found",
+            "description": "Post not found",
         }
     })
 async def get_post(post_id: str) -> HttpResponseModel:
@@ -77,11 +78,41 @@ async def home():
     """
     return HTMLResponse(content=html_content, status_code=200)
 
-@app.post("/new_post")
-async def publish(post: NewPost, image: UploadFile = File(None)):
+@app.post("/new_post", response_model=HttpResponseModel,)
+async def publish_post(post: NewPost, image: UploadFile = File(None)) -> HttpResponseModel:
+    '''
+    Post/Publish a post on the forum
+    Parameters:
+    - post: The post and its contents.
+    - image (Optional): The image file attached to the post.
+
+    Returns:
+    - A message confirming the creation and storage of the post.
+
+    Raises:
+    - HTTPException 415: If the type of the sent file isn't a JPEG or a PNG
+    - HTTPException 500: If the server can't generate a unique id for the post.
+    '''
     if(image):
         content = await image.read()
-        response = ItemService.create_post(assemble(post, image.filename), content)
+        post_create_response = ItemService.create_post(post.assemble(image.filename), content)
     else:
-        response = ItemService.create_post(assemble(post))
-    return response
+        post_create_response = ItemService.create_post(post.assemble())
+    return post_create_response
+
+@app.post("/{post_id}/new_comment", response_model=HttpResponseModel,)
+async def publish_comment(comment: NewComment, post_id: str) -> HttpResponseModel:
+    '''
+    Post a comment on a post from the forum
+    Parameters:
+    - comment: The comment and its contents.
+    - post_id: The ID of the post being commented on.
+
+    Returns:
+    - A message confirming the creation and storage of the comment.
+
+    Raises:
+    - HTTPException 500: If the server can't generate a unique id for the comment.
+    '''
+    comnt_create_response = ItemService.create_comment(comment.assemble(), post_id)
+    return comnt_create_response

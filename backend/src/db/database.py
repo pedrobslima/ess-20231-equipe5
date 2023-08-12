@@ -15,6 +15,11 @@ class Database():
         self.selections: list = ["tags", "posts", "comments"]
         db_file.close()
 
+    def dbUpdate(self):
+        db_file = open('src/db/database.json', 'w')
+        db_file.write(self.db)
+        db_file.close()
+
     def get_post_by_id(self, post_id: str) -> dict | None:
         '''Get post by id
 
@@ -79,7 +84,28 @@ class Database():
             response = self.get_comments_by_post(item)
         return response
     
-    def create_post(self, post: dict, post_img: bytes | None = None) -> bool | None:
+    def create_post(self, post: dict, post_img: bytes | None = None) -> bool:
+        '''
+        Will try to choose a random id por the post, create and then store it (and its image) in the database.
+        If it can't generate an unused id after 3 tries, it gives up. 
+
+        Parameters
+        - post:
+            A dicitionary containing all of the posts data:
+                - user
+                - list of tags
+                - title
+                - body
+                - images file name
+                - list of comments (empty)
+        - post_img:
+            Contains the bytes that make up the posts attached image
+
+        Returns
+        - bool:
+            Represents if the posts creation was a success(True) or not(False)
+        '''
+        
         count = 0
         p_check = True
         while(p_check and count<3):
@@ -89,13 +115,48 @@ class Database():
         
         if(not p_check):
             self.db[post_id] = post
-            db_file = open('src/db/database.json', 'w')
-            db_file.write(self.db)
-            db_file.close()
+            self.dbUpdate()
             if(type(post_img) == bytes):
                 img_file = open(f'src/db/images/{post["image"]}', 'wb')
                 img_file.write(post_img)
                 img_file.close()
+            return True
+        return False
+
+    def create_comment(self, comment: dict, og_post: str) -> bool:
+        '''
+        Will try to choose a random id por the comment, create and then store it in the database.
+        If it can't generate an unused id after 3 tries, it gives up. 
+
+        Parameters
+        - comment:
+            A dicitionary containing all of the comments data:
+                - comment_id (empty)
+                - user
+                - body
+        - og_post:
+            The id from the post that's being commented on by the user
+
+        Returns
+        - bool:
+            Represents if the comments creation was a success(True) or not(False)
+        '''
+
+        count = 0
+        c_check = True
+        com_ids = []
+        for com in self.get_comments_by_post(og_post):
+            com_ids.append(com["com_id"])
+
+        while(c_check and count<3): # criar função?
+            comment_id = uuid4()
+            c_check = comment_id in com_ids
+            count += 1
+
+        if(not c_check):
+            comment['com_id'] = comment_id
+            self.db[og_post]["comments"].append(comment)
+            self.dbUpdate()
             return True
         return False
 

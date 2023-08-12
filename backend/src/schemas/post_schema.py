@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 from typing import Optional, List
-from datetime import datetime
 
 class UserPost(BaseModel):
     post_id: str
@@ -13,17 +12,16 @@ class UserPost(BaseModel):
 
 class NewPost(BaseModel):
     user: str
-    tags: list = []
+    tags: list = [] #assim msm?
     title: str
     body: str
-
-def assemble(post: NewPost, img_name: str = "") -> dict:
-    "Assembles the NewPost object into a dictionary"
-    dictio = {}
-    dictio['user'] = post.user
-    dictio['tags'] = post.tags
-    dictio['title'] = post.title
-    dictio['body'] = post.body
-    dictio['image'] = img_name
-    dictio['comments'] = []
-    return dictio
+    def assemble(self, img_name: str = "") -> dict:
+        "Assembles the NewPost object into a dictionary"
+        dictio = {}
+        dictio['user'] = self.user
+        dictio['tags'] = self.tags
+        dictio['title'] = self.title
+        dictio['body'] = self.body
+        dictio['image'] = img_name
+        dictio['comments'] = []
+        return dictio
