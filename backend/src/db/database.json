@@ -7,7 +7,7 @@
             "tags": ["Review"],
             "title": "Review episódio 2 de Jujutsu Kaisen",
             "body": "Essa segunda temporada de Jujutsu Kaisen está muito boa! Episódio fantástico!",
-            "attached": ["screenshot.png"],
+            "image": "screenshot.png",
             "comments": []
         },
         "02": {
@@ -15,7 +15,7 @@
         "tags": ["Review"],
         "title": "Review episódio 3 de Jujutsu Kaisen",
         "body": "Essa segunda temporada de Jujutsu Kaisen está muito boa! Episódio fantástico!",
-        "attached": [],
+        "image": "",
         "comments": [{
             "com_id": "01",
             "user": "anselmo13",

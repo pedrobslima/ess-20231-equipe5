@@ -1,10 +1,10 @@
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI, status
+from fastapi import FastAPI, status, File, UploadFile
 from src.api.router import api_router
 from fastapi.responses import HTMLResponse
 from src.schemas.response import HttpResponseModel
 from src.service.impl.item_service import ItemService
-from src.schemas.post_schema import NewPost, create_id, assemble
+from src.schemas.post_schema import NewPost, assemble
 
 app = FastAPI()
 
@@ -77,8 +77,11 @@ async def home():
     """
     return HTMLResponse(content=html_content, status_code=200)
 
-@app.post("/posts")
-async def publish(post: NewPost):
-    post_id = create_id()
-    response = ItemService.create_post(post_id, assemble(post))
+@app.post("/new_post")
+async def publish(post: NewPost, image: UploadFile = File(None)):
+    if(image):
+        content = await image.read()
+        response = ItemService.create_post(assemble(post, image.filename), content)
+    else:
+        response = ItemService.create_post(assemble(post))
     return response

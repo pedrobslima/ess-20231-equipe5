@@ -79,10 +79,23 @@ class Database():
             response = self.get_comments_by_post(item)
         return response
     
-    def create_post(self, post_id: str, the_actual_post: dict) -> bool | None:
-        check = self.get_post_by_id(post_id)
-        if(not check):
-            # abrir o json e fazer o update do ngc
+    def create_post(self, post: dict, post_img: bytes | None = None) -> bool | None:
+        count = 0
+        p_check = True
+        while(p_check and count<3):
+            post_id = uuid4()
+            p_check = post_id in self.db['posts'].keys()
+            count += 1
+        
+        if(not p_check):
+            self.db[post_id] = post
+            db_file = open('src/db/database.json', 'w')
+            db_file.write(self.db)
+            db_file.close()
+            if(type(post_img) == bytes):
+                img_file = open(f'src/db/images/{post["image"]}', 'wb')
+                img_file.write(post_img)
+                img_file.close()
             return True
         return False
 
