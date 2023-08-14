@@ -1,13 +1,13 @@
 from src.schemas.response import HTTPResponses, HttpResponseModel, Optional
 from src.service.meta.item_service_meta import ItemServiceMeta
-from src.db.__init__ import database as db
+from src.db.server import server_ as db
 
 class ItemService(ItemServiceMeta):
 
     @staticmethod
-    def get_item(item_id: str, ctg: str) -> HttpResponseModel:
+    def get_post(item_id: str) -> HttpResponseModel:
         """Get item by id and category method implementation"""
-        item = db.get_item(item_id, ctg)
+        item = db.getPost(item_id)
         if not item:
             return HttpResponseModel(
                 message=HTTPResponses.ITEM_NOT_FOUND().message,
