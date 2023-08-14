@@ -1,5 +1,5 @@
 Feature: Animes mais bem avaliados
-	As a usuário qualquer
+	As um usuário qualquer
 	I want to ver a lista de animes mais bem avaliados
 
 
