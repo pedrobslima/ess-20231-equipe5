@@ -35,12 +35,12 @@ class ItemService(ItemServiceMeta):
             return HttpResponseModel(
                 message=HTTPResponses.SERVER_ERROR().message,
                 status_code=HTTPResponses.SERVER_ERROR().status_code,
-                data=post_response
             )
         
         return HttpResponseModel(
                 message=HTTPResponses.ITEM_CREATED().message,
                 status_code=HTTPResponses.ITEM_CREATED().status_code,
+                data=post_response
             )
     
     @staticmethod
