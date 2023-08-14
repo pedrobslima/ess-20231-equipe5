@@ -1,22 +1,30 @@
-Feature: Most Viewed Anime
-	As a random user
-	I want to see a list containing the most viewed anime in a given time period
+Feature: Animes mais vistos
+	As um usuário qualquer
+	I want to ver a lista de animes mais visto em dado período de tempo
 
 
-Scenario: Accessing the Most Viewed list
+Scenario: Acessando a lista de Mais Vistos
+	Given: Estou na página “inicial”
+	When: Eu clico em “Mais Vistos”
+	Then: Eu vou para a página “Mais Vistos”
 
-Given: I'm at home page
-When: I click on "Most Viewed"
-Then: I go to "Most Viewed" page
 
-Scenario: Change time period
+Scenario: Abrir janela de seleção de período de tempo
+	Given: Eu estou na página “Mais Vistos”
+	And: os elementos da lista estão ordenados baseado em dados do período de tempo “Desde o Início”
+	When: Eu clico em “Desde o Início”
+	Then: Eu vejo a opção “Hoje”
+	And: Eu vejo a opção “Nesta Semana”
+	And: Eu vejo a opção “Neste Mês”
+	And: Eu vejo a opção “Neste Ano”
 
-Given: I access the Most Viewed page
-Then: I see the list elements are ordered based on data from "Since the Beginning" time period
-When: I click "Since the Beginning" button
-Then: I see "Today" option
-And: I see "This Week" option
-And: I see "This Month" option
-And: I see "This Year" option
-When: I click on "This Month" option
-Then: I see the list elements are ordered based on data from "This Month" time period
+
+Scenario: Mudar período de tempo
+	Given: A janela de seleção de período de tempo está aberta com “Desde o Início”	selecionado
+	And: O primeiro item da lista é “Cowboy Bebop: 337 visualizações”
+	And: O segundo item da lista é “Shingeki no Kyojin: 225 visualizações”
+	And O terceiro item da lista é “One Piece: 49 visualizações”
+	When: Eu clico em  “Neste Mês” na janela de seleção
+	Then: O primeiro item da lista é “Shingeki no Kyojin: 87 visualizações”
+	And: O segundo item da lista é “Cowboy Bebop: 53 visualizações”
+	And: O terceiro item da lista é “One Piece: 2 visualizações”
