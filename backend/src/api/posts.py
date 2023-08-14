@@ -61,7 +61,7 @@ async def create_post(post: NewPost, image: UploadFile = File(None)) -> HttpResp
     - image (Optional): The image file attached to the post.
 
     Returns:
-    - A message confirming the creation and storage of the post.
+    - The newly created post.
 
     Raises:
     - HTTPException 415: If the type of the sent file isn't a JPEG or a PNG

@@ -64,6 +64,23 @@ class Database():
 
         return post["comments"]
     
+
+    def get_tag(self, tag: str) -> str | None:
+        '''Get a tag
+
+        Parameters
+        - tag: 
+            The searched tag
+
+        Returns
+        - The tag searched, but capitalized, or nothing
+        '''
+        tag = tag.capitalize()
+        if(tag in self.db["tags"]):
+            return tag
+        return None
+    
+
     def get_item(self, category: str, item: str) -> dict | list | None:
         '''Get a item
 
@@ -82,9 +99,11 @@ class Database():
             response = self.get_post_by_id(item)
         elif(category == "comments"):
             response = self.get_comments_by_post(item)
+        elif(category == "tags"):
+            response = self.get_tag(item)
         return response
     
-    def create_post(self, post: dict, post_img: bytes | None = None) -> bool:
+    def create_post(self, post: dict, post_img: bytes | None = None) -> dict | None:
         '''
         Will try to choose a random id for the post, create and then store it (and its image) in the database.
         If it can't generate an unused id after 3 tries, it gives up. 
@@ -102,8 +121,8 @@ class Database():
             Contains the bytes that make up the posts attached image
 
         Returns
-        - bool:
-            Represents if the posts creation was a success(True) or not(False)
+        - new_post: 
+            The id and the new post uploaded to the forum in a form of dictionary
         '''
         
         count = 0
@@ -114,14 +133,23 @@ class Database():
             count += 1
         
         if(not p_check):
+            for i in range(len(post["tags"])):
+                post["tags"][i] = str(post["tags"][i]).capitalize()
+                if(post["tags"][i] not in self.db["tags"]):
+                    self.db["tags"].append(post["tags"][i])
+
             self.db[post_id] = post
             self.dbUpdate()
+
             if(type(post_img) == bytes):
                 img_file = open(f'src/db/images/{post["image"]}', 'wb')
                 img_file.write(post_img)
                 img_file.close()
-            return True
-        return False
+
+            new_post: dict = {}
+            new_post[post_id] = post
+            return new_post
+        #return None
 
     def create_comment(self, comment: dict, og_post: str) -> bool:
         '''

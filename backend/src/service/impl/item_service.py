@@ -30,11 +30,12 @@ class ItemService(ItemServiceMeta):
                     message=HTTPResponses.UNSUPPORTED_MEDIA_TYPE().message,
                     status_code=HTTPResponses.UNSUPPORTED_MEDIA_TYPE().status_code,
                 )
-        confirm = db.create_post(post_main, post_img)
-        if not confirm:
+        post_response = db.create_post(post_main, post_img)
+        if not post_response:
             return HttpResponseModel(
                 message=HTTPResponses.SERVER_ERROR().message,
                 status_code=HTTPResponses.SERVER_ERROR().status_code,
+                data=post_response
             )
         
         return HttpResponseModel(
