@@ -1,22 +1,23 @@
-Feature: Most Well Reviewed Anime
-	As a random user
-	I want to see a list containing the most well reviewed anime
+Feature: Animes mais bem avaliados
+	As a usuário qualquer
+	I want to ver a lista de animes mais bem avaliados
 
 
-Scenario: Accessing the Most Well Reviewed list
+Scenario: Acessando a lista dos mais bem avaliados
+	Given: Estou na página “inicial”
+	When: Eu clico em “Mais Bem Avaliados”
+	Then: Eu vou para a página “Mais Bem Avaliados”
+	And: “Cowboy Bebop” é apresentado em “1o” lugar com a nota “8”
+	And: “Shingeki no Kyojin” é apresentado em “2o” lugar com a nota “6”
+	And: “One Piece” é apresentado em “3o” lugar com a nota “3”
 
-Given: I'm at home page
-When: I click on "Most Well Reviewed"
-Then: I go to "Most Well Reviewed" page
 
-
-Scenario: Change Most Well Reviewed list order
-
-Given: I access “Most Well Reviewed” page
-And: The first item on the list is “Cowboy Bebop: score 8”
-And: The secong item on the list is “Shingeki no Kyojin: score 6”
-And: The third item on the list is “One Piece: score 3”
-When: I click on “Sort ascending”
-Then: The first item on the list is “One Piece: score 3”
-And: The second item on the list is “Shingeki no Kyojin: score 6”
-And: The third item on the list is “Cowboy Bebop: score 8”
+Scenario: Alterar ordem da lista dos mais bem avaliados
+	Given: Eu estou na página “Mais Bem Avaliados”
+	And: O primeiro item da lista é “Cowboy Bebop: nota 8”
+	And: O segundo item da lista é “Shingeki no Kyojin: nota 6”
+	And: O terceiro item da lista é “One Piece: nota 3”
+	When: Eu clico em “Ordenar de forma ascendente”
+	Then: O primeiro item da lista é “One Piece: nota 3”
+	And: O segundo item da lista é “Shingeki no Kyojin: nota 6”
+	And: O terceiro item da lista é “Cowboy Bebop: nota 8”
