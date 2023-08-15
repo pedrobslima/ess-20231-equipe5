@@ -30,7 +30,7 @@ class ItemService(ItemServiceMeta):
                     message=HTTPResponses.UNSUPPORTED_MEDIA_TYPE().message,
                     status_code=HTTPResponses.UNSUPPORTED_MEDIA_TYPE().status_code,
                 )
-        post_response = db.create_post(post_main, post_img)
+        post_response = db.createPost(post_main, post_img)
         if not post_response:
             return HttpResponseModel(
                 message=HTTPResponses.SERVER_ERROR().message,
@@ -46,7 +46,7 @@ class ItemService(ItemServiceMeta):
     @staticmethod
     def create_comment(comment: dict, post_id: str) -> HttpResponseModel:
         """Post a new comment method implementation"""
-        response = db.create_comment(comment, post_id)
+        response = db.createComment(comment, post_id)
         if not response:
             return HttpResponseModel(
                 message=HTTPResponses.SERVER_ERROR().message,
