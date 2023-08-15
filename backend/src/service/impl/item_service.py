@@ -57,4 +57,21 @@ class ItemService(ItemServiceMeta):
                 message=HTTPResponses.ITEM_CREATED().message,
                 status_code=HTTPResponses.ITEM_CREATED().status_code,
             )
+
+    @staticmethod
+    def get_comments(post_id: str) -> HttpResponseModel:
+        """Get all comments of a post via the post id"""
+        post_commts = db.getComments(post_id)
+        if not post_commts:
+            return HttpResponseModel(
+                message=HTTPResponses.ITEM_NOT_FOUND().message,
+                status_code=HTTPResponses.ITEM_NOT_FOUND().status_code,
+            )
+        else:
+            return HttpResponseModel(
+                message=HTTPResponses.ITEM_FOUND().message,
+                status_code=HTTPResponses.ITEM_FOUND().status_code,
+                data=post_commts,
+            )
+
     # TODO: implement other methods (create, update, delete)

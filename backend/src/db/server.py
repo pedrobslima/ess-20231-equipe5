@@ -115,7 +115,6 @@ class server_bd():
 
         if(not p_check):
             self._cur.execute(f'INSERT INTO Post * VALUES ({post_id}, "{post["user"]}", "{post["title"]}", "{post["body"]}", {post["image"]})')
-            tags_list = self.execute('SELECT ')
             for tag in post['tags']:
                 self._cur.execute(f'INSERT INTO Post_tag (post, tag) VALUES ({post_id}, "{tag.capitalize()}")')
             
@@ -127,6 +126,8 @@ class server_bd():
             return {post_id: post}
     
     def searchForTags(self, tags):
+        #self._cur.execute('SELECT tag FROM Post_tag GROUP BY tag')
+        #tags_list = self._cur.fetchall()
         return self.s_post.getTags(tags, self.cur)
 
     def getAllPosts(self):
@@ -134,7 +135,8 @@ class server_bd():
         return aux
 
     def getAllTags(self):
-        return self.s_post.getTags(self.cur)
+        self._cur.execute('SELECT tag FROM Post_tag GROUP BY tag')
+        return self._cur.fetchall()
     
     def getComments(self, post_id: str) -> list | None:
         '''Get a list of comments by a posts id
@@ -154,7 +156,9 @@ class server_bd():
 
         self._cur.execute(f'SELECT * FROM Comments WHERE post = {post_id}')
 
-        return self._cur.fetchall()
+        post[post_id]['comments'] = self._cur.fetchall()
+
+        return post
 
     def createComment(self, comment: dict, post_id: str) -> bool | None:
         '''Create a comment (explain more later)'''
