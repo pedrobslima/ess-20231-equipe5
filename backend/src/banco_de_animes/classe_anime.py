@@ -7,6 +7,9 @@ class Anime(BaseModel):
     nome_anime: str
     avaliacao_anime: float
     qtd_assistido: List[date]
+    assistidos_periodo: Optional[int] = 0
+    
+    
     
 lista_animes:List[Anime] = []
 
@@ -17,3 +20,63 @@ anime_kimetsu = Anime(nome_anime='Kimetsu no Yaiba', avaliacao_anime=8.7, qtd_as
 lista_animes.append(anime_naruto)
 lista_animes.append(anime_onepiece)
 lista_animes.append(anime_kimetsu)
+
+#Para cada anime na Lista de animes, percorre a lista de assistidos e conta quantos assistidos
+#Houve naquele periodo, seja ano, trimestre, semana e dia
+def cont_ano():
+    
+    for anime in lista_animes:
+        contador_aux = 0
+        for data in anime.qtd_assistido:
+            
+            if data.year == date.today().year:
+                contador_aux += 1
+
+        anime.assistidos_periodo = contador_aux        
+            
+    
+def cont_trimestre():
+    
+    for anime in lista_animes:
+        contador_aux = 0
+        for data in anime.qtd_assistido:
+            
+            if data.month <= date.today().month and data.month > date.today().month-3 and data.year == date.today().year:
+                contador_aux += 1
+
+        anime.assistidos_periodo = contador_aux
+    
+def cont_semana():
+    
+    for anime in lista_animes:
+        contador_aux = 0
+        for data in anime.qtd_assistido:
+            if date.today().weekday == 6:
+                pass
+            elif date.today().weekday == 0:
+                pass
+            elif date.today().weekday == 1:
+                pass
+            elif date.today().weekday == 2:
+                pass
+            elif date.today().weekday == 3:
+                pass
+            elif date.today().weekday == 4:
+                pass
+            elif date.today().weekday == 5:
+                pass    
+         
+        anime.assistidos_periodo = contador_aux    
+
+        
+
+def cont_dia():
+
+    for anime in lista_animes:
+        contador_aux = 0
+        for data in anime.qtd_assistido:
+            
+            if data.day == date.today().day:
+                contador_aux += 1
+
+        anime.assistidos_periodo = contador_aux
