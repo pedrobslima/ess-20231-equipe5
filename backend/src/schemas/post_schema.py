@@ -12,7 +12,7 @@ class UserPost(BaseModel):
 
 class NewPost(BaseModel):
     user: str
-    tags: list = [] #assim msm?
+    tags: list
     title: str
     body: str
     def assemble(self, img_name: str = "") -> dict:

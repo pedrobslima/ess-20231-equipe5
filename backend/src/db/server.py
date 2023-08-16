@@ -123,7 +123,7 @@ class server_bd():
                     img_file.write(post_img)
                     img_file.close()
             
-            return {post_id: post}
+            return {post}
     
     def searchForTags(self, tags):
         #self._cur.execute('SELECT tag FROM Post_tag GROUP BY tag')
