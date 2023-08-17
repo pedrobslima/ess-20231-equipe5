@@ -13,6 +13,7 @@ from api.post import router as post_router
 from api.emalta import router as emAlta_router
 from api.most_views import router as most_views_router
 from api.best_rated import router as best_rated_router
+from api.feed import router as feed_router
 
 
 app = FastAPI()
@@ -34,6 +35,7 @@ app.include_router(post_router, prefix="/post", tags=["user post"])
 app.include_router(emAlta_router, prefix="/emalta", tags=['Em Alta'])
 app.include_router(most_views_router, prefix="/mais-vistos", tags=['mais vistos'])
 app.include_router(best_rated_router, prefix="/mais-bem-avaliados", tags=["mais bem avaliados"])
+app.include_router(feed_router, prefix="/feed", tags=["feed"])
 
 if __name__ == '__main__':
     uvicorn.run(app, host='0.0.0.0', port=7777)

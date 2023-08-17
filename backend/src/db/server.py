@@ -233,6 +233,12 @@ class server_bd():
             self.disconnect()
             return False
 
+    def getRecents(self):
+        self.connect()
+        self._cur.execute('SELECT id FROM Post ORDER BY id DESC LIMIT 10')
+        posts = [post[0] for post in self._cur.fetchall()]
+        self.disconnect()
+        return posts
 
     @property
     def con(self):
