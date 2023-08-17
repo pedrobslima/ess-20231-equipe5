@@ -2,11 +2,12 @@ import sqlite3;
 from db.CreatePost import CreatePost;
 from db.SearchPost import SearchPost;
 from uuid import uuid4
+from base64 import b64decode
 import os
 
 class server_bd():
     
-    def __init__(self, url):
+    def __init__(self, url: str):
         self.db = url
         self.connect()
     
@@ -18,15 +19,15 @@ class server_bd():
         except sqlite3.OperationalError:
 
             try:
-                self._cur.execute('DROP TABLE post')
+                self._cur.execute('DROP TABLE Post')
             except sqlite3.OperationalError:
                 pass
             try:
-                self._cur.execute('DROP TABLE post_tag')
+                self._cur.execute('DROP TABLE Post_tag')
             except sqlite3.OperationalError:
                 pass
             try:
-                self._cur.execute('DROP TABLE comments')
+                self._cur.execute('DROP TABLE Comments')
             except sqlite3.OperationalError:
                 pass
             
@@ -44,11 +45,13 @@ class server_bd():
     def connect(self):
         '''Estabilish connection to database\n 
         (need to make sure it doesn't cause any multithreading problems)'''
+        print('conectou')
         self._con = sqlite3.connect(self.db, check_same_thread=False)
         self._cur = self._con.cursor()
 
     def disconnect(self):
         '''Closing connection to database'''
+        print('desconectou')
         self._cur.close()
         self._con.close()
 
@@ -141,15 +144,21 @@ class server_bd():
                 'INSERT INTO Post_tag (post, tag) VALUES (?, ?)',
                 tags
             )
-            
-            if post_img is not None:
-                img_repo = os.getcwd()+'/backend/src/db/images'
-                if not os.path.exists(img_repo):
-                    os.makedirs(img_repo)
-                with open(f'{img_repo}/{post["img_filename"]}', 'wb') as f:
-                    f.write(post_img)
+            self._con.commit()
+            if(post_img is not None):
+                content = b64decode(post_img.encode())
+                file = open(f'src//db//images//{post["img_filename"]}', 'wb')
+                file.write(content)
+                file.close()
+                #img_repo = os.getcwd()+'/backend/src/db/images'
+                #if not os.path.exists(img_repo):
+                #    os.makedirs(img_repo)
+                #with open(f'{img_repo}/{post["img_filename"]}', 'wb') as f:
+                #    f.write(post_img)
             self.disconnect()
-            return {post_id: post}
+            #return {post_id: post}
+            #post["post_id"] = post_id
+            return post
         self.disconnect()
     
     def searchForTags(self, tags):
@@ -209,6 +218,7 @@ class server_bd():
 
             if(not c_check):
                 self._cur.execute(f'INSERT INTO Comment * VALUES ({comment_id}, {post_id}, "{comment["user"]}", "{comment["body"]}")')
+                self._con.commit()
                 self.disconnect()
                 return True
             self.disconnect()
