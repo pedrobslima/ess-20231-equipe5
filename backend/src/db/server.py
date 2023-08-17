@@ -1,6 +1,8 @@
 import sqlite3;
 from db.CreatePost import CreatePost;
 from db.SearchPost import SearchPost;
+#from CreatePost import CreatePost; # (PARA TESTES LOCAIS)
+#from SearchPost import SearchPost; # (PARA TESTES LOCAIS)
 from uuid import uuid4
 from base64 import b64decode
 import os
@@ -45,13 +47,13 @@ class server_bd():
     def connect(self):
         '''Estabilish connection to database\n 
         (need to make sure it doesn't cause any multithreading problems)'''
-        print('conectou')
+        #print('conectou')
         self._con = sqlite3.connect(self.db, check_same_thread=False)
         self._cur = self._con.cursor()
 
     def disconnect(self):
         '''Closing connection to database'''
-        print('desconectou')
+        #print('desconectou')
         self._cur.close()
         self._con.close()
 
@@ -71,6 +73,13 @@ class server_bd():
         db.criaPost( {'user': 'aiorus', 'title': 'counter pra ikki de fenix', 'body': 'tipo assim.. o cara sempre volta? alguem sabe alguma forma de causar morte morrida no cara?', 'tags':['cdz', 'cavaleiros do zodiaco']})
         db.criaPost( {'user': 'eren', 'title': 'tatakae', 'body': 'tatakae', 'tags':['aot', 'anime']})
         db.criaPost( {'user': 'pikachu', 'title': 'great ball', 'body': 'mais espacosa que a comum, menos confortavel que a ultra. Pelo preco acho que vale a pena', 'tags':['pokemon', 'humor']})
+        self._cur.execute(
+        'INSERT INTO Post (id, user, title, body, image) VALUES (?, ?, ?, ?, ?)',
+        ("59b048d5-c8be-4a06-97a1-4703bd4974ca", "pedro12", "Review episódio 1071", "Joyboy voltou rapaziada, os tambores da liberdade anunciam uma nova era em One Piece. Melhor episódio", "ca1f26fd-f3ec-4b13-bbc0-263d6cf1c47c.jpg")
+        )
+        self._cur.execute('INSERT INTO Post_tag (post, tag) VALUES (?, ?)', ("59b048d5-c8be-4a06-97a1-4703bd4974ca", "Review"))
+        self._cur.execute('INSERT INTO Post_tag (post, tag) VALUES (?, ?)', ("59b048d5-c8be-4a06-97a1-4703bd4974ca", "One Piece"))
+
         self._con.commit()
 
         return True
@@ -90,18 +99,24 @@ class server_bd():
         '''
         self.connect()
 
-        self._cur.execute(f"SELECT * FROM Post WHERE id = {post_id}")
+        self._cur.execute(f'SELECT * FROM Post WHERE id = "{post_id}"')
         
         main_post = self._cur.fetchone()
 
-        self._cur.execute(f"SELECT * FROM Post_tag")
-    
+        post = {'id':main_post[0], 
+                'user': main_post[1],
+                'tags': [],
+                'title': main_post[2],
+                'body': main_post[3],
+                'image_name': main_post[4]}
+
+        self._cur.execute(f'SELECT tag FROM Post_tag WHERE post = "{post_id}"')
+
+        post['tags'] = self._cur.fetchall()
+
         self.disconnect()
         
-        return {main_post[0]: 
-                {'user': main_post[1],
-                 'title': main_post[2],
-                 'body': main_post[3]}}
+        return post
 
     def createPost(self, post: dict, post_img: bytes | None = None) -> dict | None:
         '''
@@ -157,7 +172,7 @@ class server_bd():
                 #    f.write(post_img)
             self.disconnect()
             #return {post_id: post}
-            #post["post_id"] = post_id
+            post["post_id"] = post_id
             return post
         self.disconnect()
     
@@ -196,7 +211,7 @@ class server_bd():
         self.disconnect()
         return tags_list
     
-    def getComments(self, post_id: str) -> list | None:
+    def getPostComments(self, post_id: str) -> list | None:
         '''Get a list of comments by a posts id
 
         Parameters
@@ -210,38 +225,43 @@ class server_bd():
 
         post = self.getPost(post_id)
 
+        self.connect() # Connection closed on self.getPost(post_id)
+
         if(not post):
             return None
 
-        self._cur.execute(f'SELECT * FROM Comments WHERE post = {post_id}')
+        self._cur.execute(f'SELECT id, user, body FROM Comments WHERE post = "{post_id}"')
 
-        post[post_id]['comments'] = self._cur.fetchall()
+        post["comments"] = []
+        for comm in self._cur.fetchall():
+            post["comments"].append({"id": comm[0], "user": comm[1], "body": comm[2]})
 
         self.disconnect()
 
         return post
 
-    def createComment(self, comment: dict, post_id: str) -> bool | None:
+    def createComment(self, comment: dict, post_id: str) -> dict | None:
         '''Create a comment (explain more later)'''
         self.connect()
 
         if(self.getPost(post_id)):
             count = 0
             c_check = True
-            self._cur.execute(f'SELECT id FROM Comments WHERE post = {post_id}')
+            self.connect() # Connection closed on self.getPost(post_id)
+            self._cur.execute(f'SELECT post FROM Comments WHERE post = "{post_id}"')
             id_list = self._cur.fetchall()
             while(c_check and count<3):
-                comment_id = uuid4()
+                comment_id = str(uuid4())
                 c_check = comment_id in id_list
                 count += 1
 
             if(not c_check):
-                self._cur.execute(f'INSERT INTO Comment * VALUES ({comment_id}, {post_id}, "{comment["user"]}", "{comment["body"]}")')
+                self._cur.execute(f'INSERT INTO Comments (id, post, user, body) VALUES (?, ?, ?, ?)',
+                                  (comment_id, post_id, comment["user"], comment["body"]))
                 self._con.commit()
                 self.disconnect()
-                return True
+                return {'id': comment_id}
             self.disconnect()
-            return False
 
 
     @property
@@ -261,3 +281,4 @@ class server_bd():
         return None
 
 server_ = server_bd("banco.db")
+#server_ = server_bd("backend/banco.db") # (PARA TESTES LOCAIS)
