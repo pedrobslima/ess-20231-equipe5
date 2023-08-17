@@ -3,16 +3,23 @@ from fastapi.middleware.cors import CORSMiddleware
 import json;
 import uvicorn
 
+import os
+import sys
+
+project_root = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, project_root)
+
 from api.search import router as search_router
 from api.post import router as post_router
 from api.emalta import router as emAlta_router
 from api.most_views import router as most_views_router
 from api.best_rated import router as best_rated_router
 
+
 app = FastAPI();
 
 origins = [
-    "https://teste-vite-9owap1e4x-erbert-gadelha.vercel.app",
+    "*",
 ]
 
 app.add_middleware(
@@ -33,8 +40,5 @@ if __name__ == '__main__':
     uvicorn.run(app, host='0.0.0.0', port=7777);
 
 @app.get('/')
-async def SearchTags():
-    return {'resposta': 'Bem Vindo!'}
-@app.get('/teste')
 async def SearchTags():
     return {'resposta': 'Bem Vindo!'}
