@@ -1,13 +1,14 @@
 import sqlite3;
-from src.db.CreatePost import CreatePost;
-from src.db.SearchPost import SearchPost;
+from db.CreatePost import CreatePost;
+from db.SearchPost import SearchPost;
 from uuid import uuid4
+import os
 
 class server_bd():
     
     def __init__(self, url):
-        self._con = sqlite3.connect(url)
-        self._cur = self._con.cursor()
+        self.db = url
+        self.connect()
     
         try:        
             self._cur.execute('SELECT * FROM Post')
@@ -35,10 +36,22 @@ class server_bd():
             
             print("[aviso] Tabelas 'Post', 'Comments' e 'Post_tag' foram criadas.")
             self.settle()
-        
-        self.c_post = CreatePost(self.cur)
-        self.s_post = SearchPost(self.cur)
+        finally:
+            self.c_post = CreatePost(self.cur)
+            self.s_post = SearchPost(self.cur)
+            self.disconnect()
     
+    def connect(self):
+        '''Estabilish connection to database\n 
+        (need to make sure it doesn't cause any multithreading problems)'''
+        self._con = sqlite3.connect(self.db, check_same_thread=False)
+        self._cur = self._con.cursor()
+
+    def disconnect(self):
+        '''Closing connection to database'''
+        self._cur.close()
+        self._con.close()
+
     def settle(self):
         self._cur.execute('SELECT * FROM Post')
         count = len(self._cur.fetchall())
@@ -72,6 +85,7 @@ class server_bd():
         - None
             In case it doesn't find the post
         '''
+        self.connect()
 
         self._cur.execute(f"SELECT * FROM Post WHERE id = {post_id}")
         
@@ -79,6 +93,8 @@ class server_bd():
 
         self._cur.execute(f"SELECT * FROM Post_tag")
     
+        self.disconnect()
+        
         return {main_post[0]: 
                 {'user': main_post[1],
                  'title': main_post[2],
@@ -104,26 +120,37 @@ class server_bd():
         - new_post: 
             The id and the new post uploaded to the forum in a form of dictionary
         '''
+        self.connect()
+
         count = 0
         p_check = True
         self._cur.execute(f'SELECT id FROM Post')
         id_list = self._cur.fetchall()
         while(p_check and count<3):
-            post_id = uuid4()
+            post_id = str(uuid4())
             p_check = post_id in id_list
             count += 1
 
         if(not p_check):
-            self._cur.execute(f'INSERT INTO Post * VALUES ({post_id}, "{post["user"]}", "{post["title"]}", "{post["body"]}", {post["image"]})')
-            for tag in post['tags']:
-                self._cur.execute(f'INSERT INTO Post_tag (post, tag) VALUES ({post_id}, "{tag.capitalize()}")')
+            self._cur.execute(
+                'INSERT INTO Post (id, user, title, body, image) VALUES (?, ?, ?, ?, ?)',
+                (post_id, post["user"], post["title"], post["body"], post["img_filename"])
+            )
+            tags = [(post_id, tag.capitalize()) for tag in post['tags']]
+            self._cur.executemany(
+                'INSERT INTO Post_tag (post, tag) VALUES (?, ?)',
+                tags
+            )
             
-            if(type(post_img) == bytes):
-                    img_file = open(f'src/db/images/{post["image"]}', 'wb')
-                    img_file.write(post_img)
-                    img_file.close()
-            
+            if post_img is not None:
+                img_repo = os.getcwd()+'/backend/src/db/images'
+                if not os.path.exists(img_repo):
+                    os.makedirs(img_repo)
+                with open(f'{img_repo}/{post["img_filename"]}', 'wb') as f:
+                    f.write(post_img)
+            self.disconnect()
             return {post_id: post}
+        self.disconnect()
     
     def searchForTags(self, tags):
         #self._cur.execute('SELECT tag FROM Post_tag GROUP BY tag')
@@ -135,8 +162,11 @@ class server_bd():
         return aux
 
     def getAllTags(self):
+        self.connect()
         self._cur.execute('SELECT tag FROM Post_tag GROUP BY tag')
-        return self._cur.fetchall()
+        tags_list = self._cur.fetchall()
+        self.disconnect()
+        return tags_list
     
     def getComments(self, post_id: str) -> list | None:
         '''Get a list of comments by a posts id
@@ -148,6 +178,7 @@ class server_bd():
         Returns
         - A list of comments of the searched post
         '''
+        self.connect()
 
         post = self.getPost(post_id)
 
@@ -158,10 +189,13 @@ class server_bd():
 
         post[post_id]['comments'] = self._cur.fetchall()
 
+        self.disconnect()
+
         return post
 
     def createComment(self, comment: dict, post_id: str) -> bool | None:
         '''Create a comment (explain more later)'''
+        self.connect()
 
         if(self.getPost(post_id)):
             count = 0
@@ -175,7 +209,9 @@ class server_bd():
 
             if(not c_check):
                 self._cur.execute(f'INSERT INTO Comment * VALUES ({comment_id}, {post_id}, "{comment["user"]}", "{comment["body"]}")')
+                self.disconnect()
                 return True
+            self.disconnect()
             return False
 
 
