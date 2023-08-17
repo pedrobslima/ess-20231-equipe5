@@ -1,6 +1,5 @@
-from fastapi import FastAPI, Query
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import json;
 import uvicorn
 
 import os
@@ -16,7 +15,7 @@ from api.most_views import router as most_views_router
 from api.best_rated import router as best_rated_router
 
 
-app = FastAPI();
+app = FastAPI()
 
 origins = [
     "*",
@@ -37,7 +36,7 @@ app.include_router(most_views_router, prefix="/mais-vistos", tags=['mais vistos'
 app.include_router(best_rated_router, prefix="/mais-bem-avaliados", tags=["mais bem avaliados"])
 
 if __name__ == '__main__':
-    uvicorn.run(app, host='0.0.0.0', port=7777);
+    uvicorn.run(app, host='0.0.0.0', port=7777)
 
 @app.get('/')
 async def SearchTags():
