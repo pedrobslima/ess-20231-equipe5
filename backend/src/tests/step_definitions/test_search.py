@@ -28,8 +28,8 @@ def get_search_bar_tag(context, tag):
 
 @when('seleciono pesquisar')
 def click_search(context):
-    aux = url + f"search?tags={','.join(context['searched_tags'])}"
-    context['response'] = requests.get(aux)
+    temp = url + f"search?tags={','.join(context['searched_tags'])}"
+    context['response'] = requests.get(temp)
     pass
 
 @then(parsers.cfparse('eu vou para página "{page}"'))
@@ -44,7 +44,7 @@ def change_to_page(context, page):
             post = requests.get(url + f"post/{id}").json()
 
             assert post['status_code'] == 200, f"Erro ao buscar post de id '{id}'"
-            posts.append( list(post['data'].values())[0] )
+            posts.append( post['data'] )
 
         print(f'posts:{str(posts)}')
         context['posts'] = posts
