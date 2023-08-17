@@ -1,6 +1,7 @@
 from schemas.response import HTTPResponses, HttpResponseModel, Optional
 from service.meta.item_service_meta import ItemServiceMeta
 from db.server import server_ as db
+from banco_de_animes.classe_anime import lista_animes as animelist
 
 class ItemService(ItemServiceMeta):
 
@@ -73,5 +74,21 @@ class ItemService(ItemServiceMeta):
                 status_code=HTTPResponses.ITEM_FOUND().status_code,
                 data=post_commts,
             )
+            
+    @staticmethod
+    def get_animes():
+        """Get all animes method implementation"""
+        animes = animelist
+        if not animes:
+            return HttpResponseModel(
+                message=HTTPResponses.ITEM_NOT_FOUND().message,
+                status_code=HTTPResponses.ITEM_NOT_FOUND().status_code,
+            )
+        
+        return HttpResponseModel(
+                message=HTTPResponses.ITEM_FOUND().message,
+                status_code=HTTPResponses.ITEM_FOUND().status_code,
+                data=animes,
+            )       
 
     # TODO: implement other methods (create, update, delete)
