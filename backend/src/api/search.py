@@ -21,7 +21,8 @@ router = APIRouter()
         }
     })
 async def search_for_tags(tags: str = Query(None)):
-    return SearchService.search_for_tags(tags.split(','))
+    tags = tags.split(',')
+    return SearchService.search_for_tags(tags)
 
 @router.get('/all')
 async def get_data():

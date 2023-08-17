@@ -99,10 +99,23 @@ class server_bd():
         '''
         self.connect()
 
-        self._cur.execute(f'SELECT * FROM Post WHERE id = "{post_id}"')
+        '''
+        print(post_id)
+        try:
+            aux = int(post_id)
+            self._cur.execute(f'SELECT * FROM Post WHERE id = {aux}')
+        except ValueError:
+            print(f'post_id: {post_id}')
+            self._cur.execute(f'SELECT * FROM Post WHERE id = {post_id}')
+        '''
+
+        print(f'post_id: {post_id}')
+        if post_id.isdigit():
+            self._cur.execute(f'SELECT * FROM Post WHERE id = {post_id}')
+        else:
+            self._cur.execute(f'SELECT * FROM Post WHERE id = "{post_id}"')
         
         main_post = self._cur.fetchone()
-
         post = {'id':main_post[0], 
                 'user': main_post[1],
                 'tags': [],
