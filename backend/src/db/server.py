@@ -41,7 +41,7 @@ class server_bd():
             self.settle()
         finally:
             self.c_post = CreatePost(self.cur)
-            self.s_post = SearchPost(self.cur)
+            self.s_post = SearchPost()
             self.disconnect()
     
     def connect(self):
@@ -99,10 +99,23 @@ class server_bd():
         '''
         self.connect()
 
-        self._cur.execute(f'SELECT * FROM Post WHERE id = "{post_id}"')
+        '''
+        print(post_id)
+        try:
+            aux = int(post_id)
+            self._cur.execute(f'SELECT * FROM Post WHERE id = {aux}')
+        except ValueError:
+            print(f'post_id: {post_id}')
+            self._cur.execute(f'SELECT * FROM Post WHERE id = {post_id}')
+        '''
+
+        print(f'post_id: {post_id}')
+        if post_id.isdigit():
+            self._cur.execute(f'SELECT * FROM Post WHERE id = {post_id}')
+        else:
+            self._cur.execute(f'SELECT * FROM Post WHERE id = "{post_id}"')
         
         main_post = self._cur.fetchone()
-
         post = {'id':main_post[0], 
                 'user': main_post[1],
                 'tags': [],
@@ -175,14 +188,33 @@ class server_bd():
             return post
         self.disconnect()
     
-    def searchForTags(self, tags):
-        #self._cur.execute('SELECT tag FROM Post_tag GROUP BY tag')
-        #tags_list = self._cur.fetchall()
-        return self.s_post.getTags(tags, self.cur)
+    def search_for_tags(self, tags):
 
+        command = ''
+        inner_format = ' INNER JOIN post_tag TAG{0} ON PT.post = TAG{0}.post AND TAG{0}.tag = "{1}"'
+        
+        for index in range(0, len(tags)):
+            command += inner_format.format(index, tags[index])
+
+        self.connect()
+        self.cur.execute(f'SELECT PT.post FROM post_tag PT {command} GROUP BY PT.post ORDER BY PT.post DESC')
+        
+        retorno = {'matches': []}
+        for post in self.cur.fetchall():
+            retorno['matches'].append(post[0]);
+        
+        self.disconnect()
+        return retorno
+
+    
     def getAllPosts(self):
-        aux = self.s_post.getAll(self.cur)
-        return aux
+        self.connect()
+        self.cur.execute('SELECT * FROM post')
+        
+        retorno = self.cur.fetchall()
+        self.disconnect()
+
+        return retorno
 
     def getAllTags(self):
         '''Gets all tags'''
@@ -253,6 +285,12 @@ class server_bd():
                 return {'id': comment_id}
             self.disconnect()
 
+    def getRecents(self):
+        self.connect()
+        self._cur.execute('SELECT id FROM Post ORDER BY id DESC LIMIT 10')
+        posts = [post[0] for post in self._cur.fetchall()]
+        self.disconnect()
+        return posts
 
     @property
     def con(self):
