@@ -45,14 +45,14 @@ class server_bd():
             self.disconnect()
     
     def connect(self):
-        '''Estabilish connection to database\n 
+        '''Estabilish connection to database.\n 
         (need to make sure it doesn't cause any multithreading problems)'''
         #print('conectou')
         self._con = sqlite3.connect(self.db, check_same_thread=False)
         self._cur = self._con.cursor()
 
     def disconnect(self):
-        '''Closing connection to database'''
+        '''Closing connection to database.'''
         #print('desconectou')
         self._cur.close()
         self._con.close()
@@ -89,13 +89,13 @@ class server_bd():
 
         Parameters
         - post_id: 
-            The id of the comments original post    
+            The id of the comments original post.
 
         Returns
         - post: 
-            A dictionary containing the posts info
+            A dictionary containing the posts info.
         - None
-            In case it doesn't find the post
+            In case it doesn't find the post.
         '''
         self.connect()
 
@@ -118,7 +118,7 @@ class server_bd():
         
         return post
 
-    def createPost(self, post: dict, post_img: bytes | None = None) -> dict | None:
+    def createPost(self, post: dict, post_img: str | None = None) -> dict | None:
         '''
         Will try to choose a random id for the post, create and then store it (and its image) in the database.
         If it can't generate an unused id after 3 tries, it gives up. 
@@ -132,11 +132,10 @@ class server_bd():
                 - body
                 - images file name
         - post_img:
-            Contains the bytes that make up the posts attached image
+            Contains the bytes encoded (and in string form) that make up the posts attached image.
 
         Returns
-        - new_post: 
-            The id and the new post uploaded to the forum in a form of dictionary
+        - A dictionary containing the id and the post uploaded to the forum, or a None.
         '''
         self.connect()
 
@@ -186,21 +185,22 @@ class server_bd():
         return aux
 
     def getAllTags(self):
+        '''Gets all tags'''
         self.connect()
         self._cur.execute('SELECT tag FROM Post_tag GROUP BY tag')
         tags_list = self._cur.fetchall()
         self.disconnect()
         return tags_list
     
-    def getPostComments(self, post_id: str) -> list | None:
-        '''Get a list of comments by a posts id
+    def getPostComments(self, post_id: str) -> dict | None:
+        '''Gets a post and a list of its comments.
 
         Parameters
         - post_id: 
-            The id of the comments original post    
+            The id of the post in question.
 
         Returns
-        - A list of comments of the searched post
+        - A dicitionary containing the atributes of the post, as well as a list of comments from searched post.
         '''
         self.connect()
 
@@ -222,7 +222,16 @@ class server_bd():
         return post
 
     def createComment(self, comment: dict, post_id: str) -> dict | None:
-        '''Create a comment (explain more later)'''
+        '''Creates a comment and stores it in 'Comments' table.
+        
+        Parameters
+            - comment:
+                A dicitionary containing the contents of the comment about to be posted.
+            - post_id:
+                The string that represents the id of the post being commented on.
+                
+        Returns
+            - A dictionary that contains the id of the newly created comment, or a None.'''
         self.connect()
 
         if(self.getPost(post_id)):
