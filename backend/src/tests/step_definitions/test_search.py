@@ -28,7 +28,7 @@ def get_search_bar_tag(context, tag):
 
 @when('seleciono pesquisar')
 def click_search(context):
-    aux = url + f"search/?tags={','.join(context['searched_tags'])}"
+    aux = url + f"search?tags={','.join(context['searched_tags'])}"
     context['response'] = requests.get(aux)
     pass
 
@@ -68,29 +68,7 @@ def verify_post_in_body(context, post):
     assert found, f"Post de titulo '{post}' não encontrado no contexto"
     pass
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ###         ###         ###         ###         ###         ###         ###
-
 
 """ Scenario: Busca por multiplas tags """
 @scenario(scenario_name="Busca por multiplas tags", feature_name="../features/search.feature")
@@ -114,13 +92,6 @@ def verify_unique_post(context, post):
     pass
 
 ###         ###         ###         ###         ###         ###         ###
-
-
-
-
-
-###         ###         ###         ###         ###         ###         ###
-
 
 """ Scenario: Busca sem correspondencias """
 @scenario(scenario_name="Busca sem correspondencias", feature_name="../features/search.feature")

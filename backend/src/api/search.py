@@ -6,7 +6,7 @@ from service.impl.search_service import SearchService
 
 router = APIRouter()
 #D:\Users\pbsl\Documents\GitHub\ess-20231-equipe5\backend
-@router.get('/', 
+@router.get('', 
     response_model=HttpResponseModel,
     status_code=status.HTTP_200_OK,
     description="Retrieve an post by its ID",
@@ -21,9 +21,7 @@ router = APIRouter()
         }
     })
 async def search_for_tags(tags: str = Query(None)):
-
     return SearchService.search_for_tags(tags.split(','))
-
 
 @router.get('/all')
 async def get_data():
