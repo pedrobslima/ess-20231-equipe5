@@ -1,6 +1,6 @@
 from pydantic import BaseModel
-import uuid
-import base64
+from typing import Optional
+from uuid import uuid4
 
 class UserPost(BaseModel):
     post_id: str
@@ -13,25 +13,23 @@ class UserPost(BaseModel):
 
 class NewPost(BaseModel):
     user: str
-    tags: str
+    tags: list[str]
     title: str
     body: str
-    img_base64: str = ""
-    img_extension: str = ""
+    img_filename: Optional[str] = None
+    img_bytes: Optional[str] = None
     def assemble(self) -> dict:
         "Assembles the NewPost object into a dictionary"
         dictio = {}
         dictio['user'] = self.user
-        dictio['tags'] = self.tags.split(',')
+        dictio['tags'] = self.tags
         dictio['title'] = self.title
         dictio['body'] = self.body
-        dictio['img_filename'] = generate_uuid() + self.img_extension
-        dictio['img_bytes'] = base64_to_bytes(self.img_base64) if self.img_base64 != "" else None
+        if(not self.img_bytes):
+            dictio['img_filename'] = None
+            dictio['img_bytes'] = None
+        else:
+            dictio['img_filename'] = str(uuid4()) + self.img_filename[self.img_filename.rfind('.'):]
+            dictio['img_bytes'] = self.img_bytes
         dictio['comments'] = []
         return dictio
-
-def generate_uuid() -> str:
-    return str(uuid.uuid4())
-
-def base64_to_bytes(base64_string: str) -> bytes:
-    return base64.b64decode(base64_string)
