@@ -10,6 +10,7 @@ sys.path.insert(0, project_root)
 
 from api.search import router as search_router
 from api.post import router as post_router
+from api.comments import router as comment_router
 from api.emalta import router as emAlta_router
 from api.most_views import router as most_views_router
 from api.best_rated import router as best_rated_router
@@ -32,6 +33,7 @@ app.add_middleware(
 
 app.include_router(search_router, prefix="/search", tags=["search"])
 app.include_router(post_router, prefix="/post", tags=["user post"])
+app.include_router(comment_router, prefix="/comments", tags=["comment"])
 app.include_router(emAlta_router, prefix="/emalta", tags=['Em Alta'])
 app.include_router(most_views_router, prefix="/mais-vistos", tags=['mais vistos'])
 app.include_router(best_rated_router, prefix="/mais-bem-avaliados", tags=["mais bem avaliados"])
