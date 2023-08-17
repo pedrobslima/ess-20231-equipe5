@@ -5,7 +5,7 @@ from uuid import uuid4
 class UserPost(BaseModel):
     post_id: str
     user: str
-    tags: list
+    tags: list[str]
     title: str
     body: str
     img_name: str

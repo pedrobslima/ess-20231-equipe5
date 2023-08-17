@@ -7,7 +7,7 @@ class ItemService(ItemServiceMeta):
     @staticmethod
     def get_post(item_id: str) -> HttpResponseModel:
         """Get item by id and category method implementation"""
-        item = db.getPost(item_id)
+        item = db.getPostComments(item_id)
         if not item:
             return HttpResponseModel(
                 message=HTTPResponses.ITEM_NOT_FOUND().message,
@@ -56,6 +56,7 @@ class ItemService(ItemServiceMeta):
         return HttpResponseModel(
                 message=HTTPResponses.ITEM_CREATED().message,
                 status_code=HTTPResponses.ITEM_CREATED().status_code,
+                data=response
             )
 
     @staticmethod

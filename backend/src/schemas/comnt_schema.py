@@ -17,15 +17,3 @@ class NewComment(BaseModel):
         dictio['user'] = self.user
         dictio['body'] = self.body
         return dictio
-
-'''
-def assemble(post: NewPost) -> dict:
-    "Assembles the NewPost object into a dictionary"
-    dictio = {}
-    dictio['user'] = post.user
-    dictio['tags'] = post.tags
-    dictio['title'] = post.title
-    dictio['body'] = post.body
-    dictio['image'] = img_name
-    dictio['comments'] = []
-    return dictio'''
