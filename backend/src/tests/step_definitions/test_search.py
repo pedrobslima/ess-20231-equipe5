@@ -28,35 +28,26 @@ def get_search_bar_tag(context, tag):
 
 @when('seleciono pesquisar')
 def click_search(context):
-    if(len(context['searched_tags']) == 1):
-        aux = url + f"search/?tags={context['searched_tags'][0]}"
-        print(aux)
-        context['response'] = requests.get(aux)
-    else:
-        aux = url + f"search/?tags={','.join(context['searched_tags'])}"
-        print(aux)
-        context['response'] = requests.get(aux)
-        #context['response'] = requests.get(url.format('search', 'tags', ','.join(context['searched_tags'])))
-
+    temp = url + f"search?tags={','.join(context['searched_tags'])}"
+    context['response'] = requests.get(temp)
     pass
 
 @then(parsers.cfparse('eu vou para página "{page}"'))
 def change_to_page(context, page):
-    print(context['response'].json())
 
-    as_string = [str(num) for num in context['response'].json()['posts']]
+    if(context['response'].json()['status_code'] == 200):
 
-    post_responses = []
-    for id in as_string:
-        post = requests.get(url + f"post/{id}")
-        post_responses.append(post.json())
-        
-    posts = []
-    for post in post_responses:
-        post = list(post['data'].values())[0]
-        posts.append(post)
+        posts = []
+        as_string = [str(num) for num in context['response'].json()['data']['matches']]
 
-    context['posts'] = posts
+        for id in as_string:
+            post = requests.get(url + f"post/{id}").json()
+
+            assert post['status_code'] == 200, f"Erro ao buscar post de id '{id}'"
+            posts.append( post['data'] )
+
+        print(f'posts:{str(posts)}')
+        context['posts'] = posts
     pass
 
 @then(parsers.cfparse('a barra de pesquisa contém a tag "{tag}"'))
@@ -69,7 +60,6 @@ def verify_post_in_body(context, post):
 
     found = False
     for post_data in context['posts']:
-        print(post_data)
 
         if post_data['title'] == post:
             found = True
@@ -78,29 +68,7 @@ def verify_post_in_body(context, post):
     assert found, f"Post de titulo '{post}' não encontrado no contexto"
     pass
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ###         ###         ###         ###         ###         ###         ###
-
 
 """ Scenario: Busca por multiplas tags """
 @scenario(scenario_name="Busca por multiplas tags", feature_name="../features/search.feature")
@@ -125,20 +93,12 @@ def verify_unique_post(context, post):
 
 ###         ###         ###         ###         ###         ###         ###
 
-
-
-
-
-###         ###         ###         ###         ###         ###         ###
-
-
 """ Scenario: Busca sem correspondencias """
 @scenario(scenario_name="Busca sem correspondencias", feature_name="../features/search.feature")
-def test_unmatched_tag():
-    """ Get none items cause unmatched tags """
+def test_unmatched_tag(context):
+    assert context['response'].json()['status_code'] == 204, "'status_code' esperado era 204"
     pass
 
 @then('nenhum post é exibido no corpo da tela')
-def verify_post_in_body2(context):
-    assert len(context['posts']) == 0, f"({len(context['response'].json()['posts'])}) posts encontrados no contexto quando valor esperado era (0)."
+def verify_no_post_in_body(context):
     pass

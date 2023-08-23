@@ -1,36 +1,31 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, status, File, UploadFile
 from db.server import server_;
-import json;
+from schemas.response import HttpResponseModel
+from service.impl.search_service import SearchService
+#from schemas.post_schema import NewPost
 
 router = APIRouter()
 #D:\Users\pbsl\Documents\GitHub\ess-20231-equipe5\backend
-@router.get('/')
-async def search(tags: str = Query(None)):
-    if tags is not None:
-        resposta = server_.searchForTags(tags.split(','))
-        return {'posts': resposta}
-    else:
-        return {'None': 'Bem Vindo ao Search!'}
-
-'''
-@router.post('/post')
-async def SetPost(data: dict):
-    print(data);
-    server_.publishPost(data);
-    
-    return {'resposta': 'post concluido'}
-'''
-    
-
-@router.get('/settle')
-async def get_data():
-    retorno = 'povoou o banco' if(server_.settle()) else 'banco ja povoado'
-    print(retorno)
-    return retorno
+@router.get('', 
+    response_model=HttpResponseModel,
+    status_code=status.HTTP_200_OK,
+    description="Retrieve an post by its ID",
+    tags=["user post"],
+    responses={
+        status.HTTP_200_OK: {
+            "model": HttpResponseModel,
+            "description": "Successfully got post by id",
+        },
+        status.HTTP_404_NOT_FOUND: {
+            "description": "Post not found",
+        }
+    })
+async def search_for_tags(tags: str = Query(None)):
+    tags = tags.split(',')
+    return SearchService.search_for_tags(tags)
 
 @router.get('/all')
 async def get_data():
-    #retorno = str(a_db.getAllPosts()).replace('), (', '\n').replace('(', '').replace(')', '');
     retorno = server_.getAllPosts()
     print(retorno)
     return retorno
