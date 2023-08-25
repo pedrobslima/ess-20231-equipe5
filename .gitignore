@@ -1,6 +1,7 @@
 *.pyc
 __pycache__/
 
+.gitignore
 
 *.log
 *.swp
@@ -9,3 +10,5 @@ frontend/package-lock.json
 node_modules
 .json
 .gitignore
+banco.db
+desktop.ini
