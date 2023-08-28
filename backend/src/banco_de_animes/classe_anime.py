@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import List, Optional
-from datetime import date
+from datetime import date, datetime
 
 class Anime(BaseModel):
     id: Optional[int] = None
@@ -51,20 +51,9 @@ def cont_semana():
     for anime in lista_animes:
         contador_aux = 0
         for data in anime.qtd_assistido:
-            if date.today().weekday == 6:
-                pass
-            elif date.today().weekday == 0:
-                pass
-            elif date.today().weekday == 1:
-                pass
-            elif date.today().weekday == 2:
-                pass
-            elif date.today().weekday == 3:
-                pass
-            elif date.today().weekday == 4:
-                pass
-            elif date.today().weekday == 5:
-                pass    
+            days_diff = (datetime.strptime(str(date.today()), '%Y-%m-%d') - datetime.strptime(str(data), '%Y-%m-%d')).days
+            if days_diff <= 7 and days_diff > -1:
+                contador_aux += 1
          
         anime.assistidos_periodo = contador_aux    
 
@@ -79,4 +68,22 @@ def cont_dia():
             if data.day == date.today().day:
                 contador_aux += 1
 
+        anime.assistidos_periodo = contador_aux        
+
+'''def main(): #test block
+    for anime in lista_animes:
+        contador_aux = 0
+        for data in anime.qtd_assistido:
+            
+            
+            if abs((datetime.strptime(str(date.today()), '%Y-%m-%d') - datetime.strptime(str(data), '%Y-%m-%d')).days) <= 7:
+                contador_aux += 1
+                print(datetime.strptime(str(data), '%Y-%m-%d'))
+
         anime.assistidos_periodo = contador_aux
+        print(contador_aux)
+
+
+if __name__ == "__main__":
+
+    main()'''
