@@ -1,30 +1,24 @@
-Feature: Animes mais vistos
-	As um usuário qualquer
-	I want to ver a lista de animes mais visto em dado período de tempo
+Feature: Mais Vistos
+	Lista de animes ordenados de acordo com sua quantidade de visualizacoes
 
+Scenario: Mudar periodo de tempo
+Given estou na página Mais Vistos
+Then eu vejo uma lista de animes sem periodo de tempo definido
+And o primeiro anime da lista desde sempre é "Kimetsu no Yaiba" com "646" visualizacoes
+And o segundo anime da lista desde sempre é "Naruto" com "269" visualizacoes
+And o terceiro anime da lista desde sempre é "One Piece" com "212" visualizacoes
+When eu seleciono que o periodo da lista seja do último "mes"
+Then o primeiro anime da lista do ultimo mes é "Kimetsu no Yaiba" com "71" visualizacoes
+And o segundo anime da lista do ultimo mes é "One Piece" com "58" visualizacoes
+And o terceiro anime da lista do ultimo mes é "Naruto" com "46" visualizacoes
 
-Scenario: Acessando a lista de Mais Vistos
-	Given Estou na página “inicial”
-	When Eu clico em “Mais Vistos”
-	Then Eu vou para a página “Mais Vistos”
-
-
-Scenario: Abrir janela de seleção de período de tempo
-	Given Eu estou na página “Mais Vistos”
-	And os elementos da lista estão ordenados baseado em dados do período de tempo “Desde o Início”
-	When Eu clico em “Desde o Início”
-	Then Eu vejo a opção “Hoje”
-	And Eu vejo a opção “Nesta Semana”
-	And Eu vejo a opção “Neste Mês”
-	And Eu vejo a opção “Neste Ano”
-
-
-Scenario: Mudar período de tempo
-	Given Eu estou na página "mais-vistos"
-	And O primeiro item da lista é "Cowboy Bebop": "337" visualizações
-	And O segundo item da lista é "Shingeki no Kyojin": "225" visualizações
-	And O terceiro item da lista é "One Piece": "49" visualizações
-	When Eu seleciono que o período da lista seja do último "mes"
-	Then O primeiro item da lista é "Shingeki no Kyojin": "87" visualizações
-	And O segundo item da lista é "Cowboy Bebop": "53" visualizações
-	And O terceiro item da lista é "One Piece": "2" visualizações
+Scenario: Mudar quantidade máxima de itens na lista
+Given estou na página Mais Vistos
+Then eu vejo uma lista de animes
+And o primeiro anime da lista é "Cowboy Bebop" com "337" visualizacoes
+And o segundo anime da lista é "Shingeki no Kyojin" com "225" visualizacoes
+And o terceiro anime da lista é "One Piece" com "49" visualizacoes
+When eu mudo o limite de itens na lista para "2"
+Then o primeiro anime da lista é "Cowboy Bebop" com "337" visualizacoes
+And o segundo anime da lista é "Shingeki no Kyojin" com "225" visualizacoes
+And o terceiro anime da lista não é retornado
