@@ -4,4 +4,3 @@ httpx
 requests
 pytest-bdd
 pytest
-pysqlite3 
