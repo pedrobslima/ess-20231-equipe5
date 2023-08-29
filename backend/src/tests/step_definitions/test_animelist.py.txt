@@ -1,0 +1,22 @@
+from fastapi.testclient import TestClient
+from pytest_bdd import scenario, scenarios, given, when, then
+
+
+
+@scenario(scenario_name="Listar nome dos animes", feature_name="../features/animes.feature")
+def test_obter_lista():
+
+    print("Teste obter Lista concluido")
+    pass
+
+@given(parsers.cfparse('temos uma lista de animes nomeados'))
+def test_get_emalta(altaClient: TestClient) -> None:
+    response = altaClient.get("/")
+
+    assert response.status_code == 200
+
+@when(parsers.cfparse('listamos o nome dos animes na lista'))
+def test_get_list():
+    names = []
+    for item in response:
+        names.append(item.)    
