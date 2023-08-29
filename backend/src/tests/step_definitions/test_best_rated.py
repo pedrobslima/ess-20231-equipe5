@@ -1,48 +1,200 @@
 from pytest_bdd import scenario, given, when, then, parsers
-from service.impl.item_service import ItemService
-from schemas.response import HttpResponseModel, HTTPResponses
+from api import best_rated
 
-@scenario(scenario_name="Acessar lista de animes mais bem avaliados na ordem decrescente", feature_name="../features/mais_bem_avaliados.feature")
-def test_get_br_descending():
+@scenario(scenario_name="Mudar a forma de ordenação da lista de decrescente para crescente", feature_name="../features/mais_bem_avaliados.feature")
+def test_change_best_rated_list_order():
+    """"Mudar forma de ordenação da lista"""
+
+@given(parsers.cfparse('estou na página Mais Bem Avaliados'))
+def check_current_page():
     pass
 
-@given(parsers.cfparse('order_best_rated retorna uma lista de animes'))
-def mock_order_best_rated_response_list():
+@then(parsers.cfparse('eu vejo uma lista de animes ordenada de maneira decrescente'), target_fixture="context")
+def mock_get_anime_list():
 
-    ItemService.get_best_rated_descending = lambda id: HttpResponseModel(
-        message=HTTPResponses.ITEM_FOUND().message,
-        status_code=HTTPResponses.ITEM_FOUND().status_code,
-        data={"lista_de_animes": [   
-                {"nome": "One Piece",           "nota": 8.9},
-                {"nome": "Kimetsu no Yaiba",    "nota": 8.7},
-                {"nome": "Naruto",              "nota": 8.4}
-                ]
-            }
-    )
+    context = {}
+    context["lista_de_animes_decrescente"] = best_rated.order_best_rated("decrescente", 3)
 
-@when(parsers.cfparse('uma requisicao "{req_type}" for enviada para "{req_url}"'),target_fixture = "context")
-def send_get_best_rated_request(client, context, req_url: str):
-    response = client.get(req_url)
-    context["response"] = response
+    assert isinstance(context["lista_de_animes_decrescente"], list)
+
     return context
 
-@then(parsers.cfparse('o status da resposta deve ser "{status_code}"'),target_fixture = "context")
-def check_response_status_code(context, status_code: str):
-    assert context["response"].status_code == int(status_code)
+@then(parsers.cfparse('o primeiro anime da lista decrescente é "{anime_1}" com nota "{nota_1}"'), target_fixture="context")
+def check_first_anime(context, anime_1: str, nota_1: float):
+
+    nota_1 = float(nota_1)
+
+    # Checa se está na lista
+    assert context["lista_de_animes_decrescente"][0]["nome"] == anime_1
+    assert context["lista_de_animes_decrescente"][0]["nota"] == nota_1
+
     return context
 
-@then(parsers.cfparse('o JSON da resposta deve conter uma lista de animes'), target_fixture="context")
-def check_response_json(context):
-    animes = context["response"].json()["data"]["lista_de_animes"]
-    assert isinstance(animes, list)
-    count = 0
-    for anime in animes:
-        assert isinstance(anime, dict)
-        assert "nome" in anime and isinstance(anime["nome"], str)
-        assert "nota" in anime and isinstance(anime["nota"], float)
+@then(parsers.cfparse('o segundo anime da lista decrescente é "{anime_2}" com nota "{nota_2}"'), target_fixture="context")
+def check_second_anime(context, anime_2: str, nota_2: float):
 
-        if count > 0:
-            assert anime["nota"] < animes[count-1]["nota"]
-        count += 1
+    nota_2 = float(nota_2)
+
+    # Checa se está na lista
+    assert context["lista_de_animes_decrescente"][1]["nome"] == anime_2
+    assert context["lista_de_animes_decrescente"][1]["nota"] == nota_2
+    # Checa se a nota é menor que a do item anterior
+    assert context["lista_de_animes_decrescente"][1]["nota"] < context["lista_de_animes_decrescente"][0]["nota"]
+
+    return context
+
+@then(parsers.cfparse('o terceiro anime da lista decrescente é "{anime_3}" com nota "{nota_3}"'), target_fixture="context")
+def check_third_anime(context, anime_3: str, nota_3: float):
+
+    nota_3 = float(nota_3)
     
+    # Checa se está na lista
+    assert context["lista_de_animes_decrescente"][2]["nome"] == anime_3
+    assert context["lista_de_animes_decrescente"][2]["nota"] == nota_3
+    # Checa se a nota é menor que a do item anterior
+    assert context["lista_de_animes_decrescente"][2]["nota"] < context["lista_de_animes_decrescente"][1]["nota"]
+
     return context
+
+@when(parsers.cfparse('eu mudo a forma de ordenação para crescente'), target_fixture="context")
+def changing_order():
+    
+    context = {}
+    context["lista_de_animes_crescente"] = best_rated.order_best_rated("crescente", 3)
+
+    assert isinstance(context["lista_de_animes_crescente"], list)
+
+    return context
+
+@then(parsers.cfparse('o primeiro anime da lista crescente é "{anime_1_cresc}" com nota "{nota_1_cresc}"'), target_fixture="context")
+def check_first_anime2(context, anime_1_cresc, nota_1_cresc):
+    
+    nota_1_cresc = float(nota_1_cresc)
+
+    # Checa se está na lista
+    assert context["lista_de_animes_crescente"][0]["nome"] == anime_1_cresc
+    assert context["lista_de_animes_crescente"][0]["nota"] == nota_1_cresc
+
+    return context
+
+@then(parsers.cfparse('o segundo anime da lista crescente é "{anime_2_cresc}" com nota "{nota_2_cresc}"'), target_fixture="context")
+def check_second_anime2(context, anime_2_cresc, nota_2_cresc):
+    
+    nota_2_cresc = float(nota_2_cresc)
+
+    # Checa se está na lista
+    assert context["lista_de_animes_crescente"][1]["nome"] == anime_2_cresc
+    assert context["lista_de_animes_crescente"][1]["nota"] == nota_2_cresc
+    # Checa se a nota é maior que a do item anterior
+    assert context["lista_de_animes_crescente"][1]["nota"] > context["lista_de_animes_crescente"][0]["nota"]
+
+    return context
+
+@then(parsers.cfparse('o terceiro anime da lista crescente é "{anime_3_cresc}" com nota "{nota_3_cresc}"'), target_fixture="context")
+def check_third_anime2(context, anime_3_cresc, nota_3_cresc):
+    
+    nota_3_cresc = float(nota_3_cresc)
+    
+    # Checa se está na lista
+    assert context["lista_de_animes_crescente"][2]["nome"] == anime_3_cresc
+    assert context["lista_de_animes_crescente"][2]["nota"] == nota_3_cresc
+    # Checa se a nota é maior que a do item anterior
+    assert context["lista_de_animes_crescente"][2]["nota"] > context["lista_de_animes_crescente"][1]["nota"]
+
+
+
+
+
+
+
+# SEGUNDO TESTE
+
+@scenario(scenario_name="Mudar quantidade máxima de itens na lista", feature_name="../features/mais_bem_avaliados.feature")
+def test_change_best_rated_list_size_limit():
+    """"Mudar quantidade máxima de itens na lista"""
+
+@given(parsers.cfparse('estou na página Mais Bem Avaliados'))
+def check_current_page():
+    pass
+
+@then(parsers.cfparse('eu vejo uma lista de animes contendo "{qtd_itens}" itens'), target_fixture="context")
+def mock_get_anime_list(qtd_itens: int):
+    
+    qtd_itens = int(qtd_itens)
+    context = {}
+    context["lista_de_animes"] = best_rated.order_best_rated("decrescente", qtd_itens)
+
+    assert isinstance(context["lista_de_animes"], list)
+
+    return context
+
+@then(parsers.cfparse('o primeiro anime da lista de "{qtd_itens}" itens é "{anime_1}" com nota "{nota_1}"'), target_fixture="context")
+def check_first_anime(context, qtd_itens: int, anime_1: str, nota_1: float):
+    
+    nota_1 = float(nota_1)
+
+    # Checa se está na lista
+    assert context["lista_de_animes"][0]["nome"] == anime_1
+    assert context["lista_de_animes"][0]["nota"] == nota_1
+
+    return context
+
+@then(parsers.cfparse('o segundo anime da lista de "{qtd_itens}" itens é "{anime_2}" com nota "{nota_2}"'), target_fixture="context")
+def check_second_anime(context, qtd_itens: int, anime_2: str, nota_2: float):
+    
+    nota_2 = float(nota_2)
+
+    # Checa se está na lista
+    assert context["lista_de_animes"][1]["nome"] == anime_2
+    assert context["lista_de_animes"][1]["nota"] == nota_2
+
+    return context
+
+@then(parsers.cfparse('o terceiro anime da lista de "{qtd_itens}" itens é "{anime_3}" com nota "{nota_3}"'), target_fixture="context")
+def check_third_anime(context, qtd_itens: int, anime_3: str, nota_3: float):
+    
+    nota_3 = float(nota_3)
+    
+    # Checa se está na lista
+    assert context["lista_de_animes"][2]["nome"] == anime_3
+    assert context["lista_de_animes"][2]["nota"] == nota_3
+
+    return context
+
+@when(parsers.cfparse('eu mudo o limite de itens na lista para "{limite}"'), target_fixture="context")
+def change_item_limit(limite):
+    
+    context = {}
+    context["limite"] = limite
+    context["lista_de_animes"] = best_rated.order_best_rated("decrescente", int(limite))
+
+    assert isinstance(context["lista_de_animes"], list)
+
+    return context
+
+@then(parsers.cfparse('o primeiro anime da lista limitada é "{anime_1}" com nota "{nota_1}"'), target_fixture="context")
+def check_first_anime2(context, anime_1: str, nota_1: float):
+    
+    nota_1 = float(nota_1)
+
+    # Checa se está na lista
+    assert context["lista_de_animes"][0]["nome"] == anime_1
+    assert context["lista_de_animes"][0]["nota"] == nota_1
+
+    return context
+
+@then(parsers.cfparse('o segundo anime da lista limitada é "{anime_2}" com nota "{nota_2}"'), target_fixture="context")
+def check_second_anime2(context, anime_2: str, nota_2: float):
+    
+    nota_2 = float(nota_2)
+
+    # Checa se está na lista
+    assert context["lista_de_animes"][1]["nome"] == anime_2
+    assert context["lista_de_animes"][1]["nota"] == nota_2
+
+    return context
+
+@then(parsers.cfparse('o terceiro anime da lista não é retornado'), target_fixture="context")
+def check_third_anime2(context):
+    
+    assert len(context["lista_de_animes"]) == int(context["limite"])
