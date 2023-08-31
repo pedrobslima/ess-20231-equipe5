@@ -4,11 +4,14 @@ from db.server import server_;
 router = APIRouter()
 @router.get('')
 async def getFeed():
-    aux = server_.getRecents()
-    print(aux)
-    #return {'posts': aux}
-    #return {"posts":[7,6,5,4,3,2,1,0]}
-    return {"posts":[
+    recents = server_.getRecents()
+    retrn = []
+
+    for i in recents:
+        retrn.append({'id': i})
+
+    return {'posts': retrn}
+    '''return {"posts":[
         {'id':7},
         {'id':6},
         {'id':5},
@@ -16,4 +19,4 @@ async def getFeed():
         {'id':3},
         {'id':2},
         {'id':1},
-        {'id':0}]}
+        {'id':0}]}'''
