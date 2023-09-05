@@ -6,92 +6,46 @@ import { useEffect, useRef, useState } from "react";
 
 
 const EmAlta = () => {
+    const [animeList, setAnimelist] = useState([]);
 
-    const ulRef = useRef<HTMLUListElement>(null);
-    const [atual, setLista] = useState<any>([]);
-    
-    const carregarAnimesDia = async () => {
+    const getAnimes = async() => {
 
         const response = await axios.get('http://localhost:8000/emalta/dia');
-        const objectNames = Object.values(response.data as any).map(anime => (anime as any).nome_anime);
-        setLista(objectNames);
-                
-    };
-
-    const carregarAnimesSemana = async () => {
-
-        const response = await axios.get('http://localhost:8000/emalta/semana');
-        const objectNames = Object.values(response.data as any).map(anime => (anime as any).nome_anime);
-        setLista(objectNames);
-                
-    };
-
-    const carregarAnimesTrimestre = async () => {
-
-        const response = await axios.get('http://localhost:8000/emalta/trimestre');
-        const objectNames = Object.values(response.data as any).map(anime => (anime as any).nome_anime);
-        setLista(objectNames);
-                
-    };
-
-    const carregarAnimesAno = async () => {
-
-        const response = await axios.get('http://localhost:8000/emalta/ano');
-        const objectNames = Object.values(response.data as any).map(anime => (anime as any).nome_anime);
-        setLista(objectNames);
-                
-    };
+        setAnimelist(response.data);
+    }
 
     useEffect(() => {
         
-        carregarAnimesDia();
-        carregarAnimesSemana();
-        carregarAnimesTrimestre();
-        carregarAnimesAno();
+        getAnimes();
+
     }, []);
 
         
     return (
         <section>
-            <h1>Em Alta</h1>
-
-            <div className={styles.container}>DIA</div>
-                <button>show</button>
-
-                <ul>
-                    {atual.map((elem)=>(
-                        <li key={elem}>{elem}</li>
-                    ))}
-                </ul>
-
-            <div className={styles.container}>SEMANA</div>
-                <button>show</button>
-
-                <ul>
-                    {atual.map((elem)=>(
-                        <li key={elem}>{elem}</li>
-                    ))}
-                </ul>
-
-            <div className={styles.container}>TRIMESTRE</div>
-                <button>show</button>
-
-                <ul>
-                    {atual.map((elem)=>(
-                        <li key={elem}>{elem}</li>
-                    ))}
-                </ul>
-
-            <div className={styles.container}>ANO</div>
-                <button>show</button>
-
-                <ul>
-                    {atual.map((elem)=>(
-                        <li key={elem}>{elem}</li>
-                    ))}
-                </ul>
-                
-            
+            <div>
+                <h2>Em Alta</h2>
+                <div className="btn-group">
+                    <a href="#" className="btn btn-primary active" aria-current="page">Dia</a>
+                    <a href="#" className="btn btn-primary">Semana</a>
+                    <a href="#" className="btn btn-primary">Trimestre</a>
+                    <a href="#" className="btn btn-primary">Ano</a>
+                    </div>
+                <table className="table table-dark table-striped">
+                    <tr>
+                        <th>Animes</th>
+                        <th>Qtd. Assistidos</th>
+                    </tr>
+                    <tbody>
+                        {animeList.map((anime) => (
+                            <tr key={(anime as any).id}>
+                                <th>{(anime as any).nome_anime}</th>
+                                <th>{(anime as any).assistidos_periodo}</th>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </section>
     )
 };
