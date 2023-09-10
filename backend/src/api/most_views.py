@@ -35,11 +35,13 @@ def order_most_views(order_by, max, time_period):
     
     if order_by == "crescente":
         descending = False
+    if time_period == '':
+        time_period = None
 
     lista_mais_vistos = []
 
     for anime in anime_list:
-        lista_mais_vistos.append({"name":anime.nome_anime,"views":len(select_dates_by_period(time_period, anime.qtd_assistido))})
+        lista_mais_vistos.append({"name":anime.nome_anime,"views":len(select_dates_by_period(time_period, anime.qtd_assistido)), "img_url":anime.img_url})
     
     lista_mais_vistos = sorted(lista_mais_vistos, key=lambda x: x["views"], reverse=descending)
 
