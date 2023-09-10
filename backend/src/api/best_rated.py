@@ -12,9 +12,9 @@ def order_best_rated(order_by, max):
     best_rated_list = []
 
     for anime in anime_list:
-        best_rated_list.append({"nome":anime.nome_anime,"nota":anime.avaliacao_anime})
+        best_rated_list.append({"name":anime.nome_anime,"rating":anime.avaliacao_anime, "img_url":anime.img_url})
     
-    best_rated_list = sorted(best_rated_list, key=lambda x: x["nota"], reverse=descending)
+    best_rated_list = sorted(best_rated_list, key=lambda x: x["rating"], reverse=descending)
 
     return best_rated_list[0:max]
 
@@ -23,4 +23,4 @@ router = APIRouter()
 
 @router.get("/")
 async def best_rated(order_by: str = "decrescente", max: int = 10):
-    return {"GET": {"lista_de_animes" : order_best_rated(order_by, max)}}
+    return {"GET": {"anime_list" : order_best_rated(order_by, max)}}
