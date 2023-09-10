@@ -1,0 +1,64 @@
+.mais-bem-avaliados {
+  text-align: center;
+  background-color: #ffffff;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+  
+.anime-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.anime-item {
+  background-color: #ffffff;
+  margin: 10px auto;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+  text-align: center;
+  width: 250px;
+}
+
+.anime-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.anime-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.anime-name {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.anime-rating {
+  font-size: 16px;
+  color: #222491;
+  font-weight: bold;
+}
+
+.header {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.anime-image {
+  width: 150px;
+  height: 200px;
+  object-fit: cover;
+  margin: 0 auto;
+  display: block; 
+}
