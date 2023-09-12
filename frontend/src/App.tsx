@@ -7,6 +7,7 @@ import EmAltaTrimestre from "./app/home/pages/EmAltaTrimestre";
 import EmAltaAno from "./app/home/pages/EmAltaAno";
 import maisVistos from "./app/home/pages/maisVistos";
 import maisBemAvaliados from "./app/home/pages/maisBemAvaliados";
+import AnaliseTendencias from "./app/home/pages/AnaliseTendencias";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
   {
     path: "/mais-bem-avaliados",
     Component: maisBemAvaliados,
+  },
+  {
+    path: "/analise-de-tendencias",
+    Component: AnaliseTendencias,
   }
 ]);
 
