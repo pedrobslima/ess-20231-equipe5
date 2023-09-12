@@ -32,10 +32,12 @@ const EmAltaAno = () => {
                     <a href="#" className="btn btn-primary active" aria-current="page">Ano</a>
                     </div>
                 <table className="table table-dark table-striped">
+                <thead>    
                     <tr>
                         <th>Animes</th>
                         <th>Qtd. Assistidos</th>
                     </tr>
+                </thead>
                     <tbody>
                         {animeList.map((anime) => (
                             <tr key={(anime as any).id}>

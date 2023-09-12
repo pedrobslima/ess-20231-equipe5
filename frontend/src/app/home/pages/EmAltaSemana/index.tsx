@@ -32,10 +32,12 @@ const EmAltaSemana = () => {
                     <a href="http://localhost:3000/emalta/ano" className="btn btn-primary">Ano</a>
                     </div>
                 <table className="table table-dark table-striped">
+                <thead>    
                     <tr>
                         <th>Animes</th>
                         <th>Qtd. Assistidos</th>
                     </tr>
+                </thead>
                     <tbody>
                         {animeList.map((anime) => (
                             <tr key={(anime as any).id}>
