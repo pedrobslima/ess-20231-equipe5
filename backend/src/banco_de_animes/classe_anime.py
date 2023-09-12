@@ -65,7 +65,7 @@ def cont_dia():
         contador_aux = 0
         for data in anime.qtd_assistido:
             
-            if data.day == date.today().day:
+            if data == date.today():
                 contador_aux += 1
 
         anime.assistidos_periodo = contador_aux        
