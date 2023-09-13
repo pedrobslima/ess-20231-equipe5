@@ -25,20 +25,26 @@ const EmAltaAno = () => {
         <section>
             <div>
                 <h2>Em Alta</h2>
-                <div className="btn-group">
-                    <a href="http://localhost:3000/emalta/dia" className="btn btn-primary">Dia</a>
-                    <a href="http://localhost:3000/emalta/semana" className="btn btn-primary">Semana</a>
-                    <a href="http://localhost:3000/emalta/trimestre" className="btn btn-primary">Trimestre</a>
-                    <a href="#" className="btn btn-primary active" aria-current="page">Ano</a>
+                <div className="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                    <div className="btn-group me-2">
+                        <a href="http://localhost:3000/emalta/dia" className="btn btn-secondary">Dia</a>
+                        <a href="http://localhost:3000/emalta/semana" className="btn btn-secondary">Semana</a>
+                        <a href="http://localhost:3000/emalta/trimestre" className="btn btn-secondary">Trimestre</a>
+                        <a href="#" className="btn btn-secondary active" aria-current="page">Ano</a>
                     </div>
-                <table className="table table-dark table-striped">
-                <thead>    
+                    <div className="btn-group me-2">
+                        <a href="http://localhost:3000/analise-de-tendencias" className="btn btn-secondary me-md-2">↵ Voltar</a>
+                    </div>
+                </div>    
+                <table className="table">
+                <caption>Em Alta no ano</caption>
+                <thead className="table-light">    
                     <tr>
                         <th>Animes</th>
                         <th>Qtd. Assistidos</th>
                     </tr>
                 </thead>
-                    <tbody>
+                    <tbody className="table-group-divider">
                         {animeList.map((anime) => (
                             <tr key={(anime as any).id}>
                                 <th>{(anime as any).nome_anime}</th>
