@@ -29,20 +29,16 @@ function MaisVistos() {
   return (
     <div className="mais-vistos">
       <h1 className="header">Mais Vistos</h1>
-
-      {/* Menu suspenso para a ordenação */}
       <label htmlFor="orderSelect">Ordenar</label>
       <select
         id="orderSelect"
         value={orderOption}
         onChange={handleOrderChange}
       >
-        <option value="decrescente">do maior para o menor</option>
-        <option value="crescente">do menor para o maior</option>
+        <option value="decrescente">Do maior para o menor</option>
+        <option value="crescente">Do menor para o maior</option>
       </select>
-
-      {/* Menu suspenso para o período */}
-      <label htmlFor="timePeriodSelect">Período:</label>
+      <label htmlFor="timePeriodSelect">Período</label>
       <select
         id="timePeriodSelect"
         value={timePeriodOption}
