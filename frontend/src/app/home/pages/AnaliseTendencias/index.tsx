@@ -26,20 +26,20 @@ const AnaliseTendencias = () => {
                     <a className="nav-link active" aria-current="page" href="#">Página Inicial</a>
                     </li>
                     <li className="nav-item">
-                    <a className="nav-link" href="http://localhost:3000/mais-bem-avaliados">Mais bem-avaliados</a>
+                    <a className="nav-link" href="/mais-bem-avaliados">Mais bem-avaliados</a>
                     </li>
                     <li className="nav-item">
-                    <a className="nav-link" href="http://localhost:3000/mais-vistos">Mais vistos</a>
+                    <a className="nav-link" href="/mais-vistos">Mais vistos</a>
                     </li>
                     <li className="nav-item dropdown">
                     <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Em Alta
                     </a>
                     <ul className="dropdown-menu">
-                        <li><a className="dropdown-item" href="http://localhost:3000/emalta/dia">Em Alta</a></li>
-                        <li><a className="dropdown-item" href="http://localhost:3000/emalta/semana">Em Alta na semana</a></li>
-                        <li><a className="dropdown-item" href="http://localhost:3000/emalta/trimestre">Em Alta no trimestre</a></li>
-                        <li><a className="dropdown-item" href="http://localhost:3000/emalta/ano">Em Alta no ano</a></li>
+                        <li><a className="dropdown-item" href="/emalta/dia">Em Alta</a></li>
+                        <li><a className="dropdown-item" href="/emalta/semana">Em Alta na semana</a></li>
+                        <li><a className="dropdown-item" href="/emalta/trimestre">Em Alta no trimestre</a></li>
+                        <li><a className="dropdown-item" href="/emalta/ano">Em Alta no ano</a></li>
                     </ul>
                     </li>
                     

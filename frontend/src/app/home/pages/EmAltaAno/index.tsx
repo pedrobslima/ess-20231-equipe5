@@ -27,13 +27,13 @@ const EmAltaAno = () => {
                 <h2>Em Alta</h2>
                 <div className="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                     <div className="btn-group me-2">
-                        <a href="http://localhost:3000/emalta/dia" className="btn btn-secondary">Dia</a>
-                        <a href="http://localhost:3000/emalta/semana" className="btn btn-secondary">Semana</a>
-                        <a href="http://localhost:3000/emalta/trimestre" className="btn btn-secondary">Trimestre</a>
+                        <a href="/emalta/dia" className="btn btn-secondary">Dia</a>
+                        <a href="/emalta/semana" className="btn btn-secondary">Semana</a>
+                        <a href="/emalta/trimestre" className="btn btn-secondary">Trimestre</a>
                         <a href="#" className="btn btn-secondary active" aria-current="page">Ano</a>
                     </div>
                     <div className="btn-group me-2">
-                        <a href="http://localhost:3000/analise-de-tendencias" className="btn btn-secondary me-md-2">↵ Voltar</a>
+                        <a href="/analise-de-tendencias" className="btn btn-secondary me-md-2">↵ Voltar</a>
                     </div>
                 </div>    
                 <table className="table">
