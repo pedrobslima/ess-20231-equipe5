@@ -4,6 +4,10 @@ import { AppUnknownError } from "../errors/app-error";
 import { HttpError, HttpUnauthorizedError } from "../errors/http-error";
 import BaseApiResponseModel from "../models/BaseApiResponseModel";
 
+export const api = axios.create({
+  baseURL: "http://127.0.0.1:8000/",
+});
+
 export class ApiService {
   private httpClient: AxiosInstance;
 
