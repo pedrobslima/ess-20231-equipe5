@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Header from "./app/home/components/header/index";
 import CreateTest from "./app/home/pages/CreateTest";
 import ListTests from "./app/home/pages/ListTests";
 import EmAlta from "./app/home/pages/EmAlta";
@@ -8,6 +9,7 @@ import EmAltaAno from "./app/home/pages/EmAltaAno";
 import maisVistos from "./app/home/pages/maisVistos";
 import maisBemAvaliados from "./app/home/pages/maisBemAvaliados";
 import AnaliseTendencias from "./app/home/pages/AnaliseTendencias";
+import Search from "./app/home/pages/Search";
 
 const router = createBrowserRouter([
   {
@@ -53,9 +55,17 @@ const router = createBrowserRouter([
   {
     path: "/analise-de-tendencias",
     Component: AnaliseTendencias,
-  }
+  },{
+    path: "/search",
+    Component: Search,
+  },
 ]);
 
 export default function App() {
-  return <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />;
+
+  return (
+    <Header>
+      <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />;
+    </Header>
+  )
 }

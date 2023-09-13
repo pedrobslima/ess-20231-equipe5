@@ -2,19 +2,21 @@ from fastapi import APIRouter
 from banco_de_animes.classe_anime import lista_animes as anime_list
 
 # Funções
+def is_reverse(order_by):
+    if order_by == "crescente":
+        return False
+    else:
+        return True
+
 def order_best_rated(order_by, max):
 
-    descending = True
-
-    if order_by == "crescente":
-        descending = False
-
+    # Cria uma lista de dicionarios contendo os detalhes dos animes
     best_rated_list = []
-
     for anime in anime_list:
         best_rated_list.append({"name":anime.nome_anime,"rating":anime.avaliacao_anime, "img_url":anime.img_url})
     
-    best_rated_list = sorted(best_rated_list, key=lambda x: x["rating"], reverse=descending)
+    # Ordena a lista baseado na chave "rating" de cada dicionário
+    best_rated_list = sorted(best_rated_list, key=lambda x: x["rating"], reverse=is_reverse(order_by))
 
     return best_rated_list[0:max]
 

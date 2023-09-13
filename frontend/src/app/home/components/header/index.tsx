@@ -1,8 +1,8 @@
 import styles from "./index.module.css";
 import search_icon from "/src/shared/assets/search-icon.svg";
-import logo from "/src/shared/assets/logo/wo_border.svg";
 
-const Topbar = ({ children }) => {
+
+const Header = ({ children }) => {
 
     const side_bar = () => {
         window.alert("abrir sidebar");
@@ -15,6 +15,9 @@ const Topbar = ({ children }) => {
         (s_bar.childNodes[0] as HTMLInputElement).value = "";
         (s_bar.childNodes[1] as HTMLElement).style.display = "none";
         (s_bar.childNodes[2] as HTMLElement).style.display = "none";
+
+        s_bar.style.background = "#ffffff7a";
+        s_bar.style.borderRadius = "8px";
     }
 
     const search = (e) => {
@@ -27,11 +30,12 @@ const Topbar = ({ children }) => {
         } else {
             if (!(e.key === 'Enter'))
                 return;
-
             el = e.target;
         }
 
-        window.alert(`pesquisar: "${el.value}"`);
+        const query = formatarTextoParaQuery(el.value);
+        window.location.href = `/search?tags=${query}`;
+        //window.alert(`pesquisar: "${el.value}"`);
     }
 
     const icon_color = "#ffffff";
@@ -39,8 +43,93 @@ const Topbar = ({ children }) => {
   return (
     <section className={styles.container}>
         <div className={styles.topbar}>
-            <div className={styles.teste}>
-                <svg width="36px" height="36px" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0.00 0.00 735.00 725.00">
+            <div className={styles.teste} onClick={ ()=>{
+                window.location.href = `/`;
+            }}>
+                {logo_svg()}
+                <span> Aniforum </span>
+            </div>
+
+            <div className={styles.searchbar_container} id="searchbar">
+                <input
+                    type="text"
+                    className={styles.text_input}
+                    placeholder="pesquisar"
+                    onKeyDown={(e) => search(e)}
+                    onFocus={()=>{
+                        const s_bar = document.getElementById("searchbar");
+                        if(!s_bar)
+                            return;
+                        
+                        s_bar.style.background = "#ffffff";
+                        s_bar.style.borderRadius = "50px";
+                    }}
+
+                    onChange={(e)=>{
+
+                        const s_bar = document.getElementById("searchbar");
+                        if(!s_bar)
+                            return; 
+
+                        const value = e.target.value;
+                        if(value.length == 0) {
+                            (s_bar.childNodes[1] as HTMLElement).style.display = "none";
+                            (s_bar.childNodes[2] as HTMLElement).style.display = "none";
+                        } else {
+                            (s_bar.childNodes[1] as HTMLElement).style.display = "block";
+                            (s_bar.childNodes[2] as HTMLElement).style.display = "block";
+                        }
+                                         
+                    }}
+
+                    onBlur={(e)=>{
+                        const s_bar = document.getElementById("searchbar");
+                        if(!s_bar)
+                            return; 
+
+                        const value = e.target.value;
+                        if(value.length == 0){
+                            s_bar.style.background = "#ffffff7a";
+                            s_bar.style.borderRadius = "8px";
+
+                            (s_bar.childNodes[1] as HTMLElement).style.display = "none";
+                            (s_bar.childNodes[2] as HTMLElement).style.display = "none";
+                        }
+                        else {
+                            s_bar.style.background = "#ffffffcf";
+                        }                        
+                    }}
+                />
+
+                
+
+                <button className={styles.search_button} onClick={()=>search(null)}>
+                    <img src={search_icon} alt="SVG" width="16px" height="16px" style={{ marginTop: "-2px" }}/>
+                </button>
+                <button className={styles.clear_bar} onClick={()=>clearBar()}>
+                    ✖
+                </button>
+            </div>
+            
+
+            <div className={styles.teste} onClick={side_bar}> </div>
+        </div>
+        <div className={styles.children}>
+            { children }
+        </div>
+    </section>
+  );
+};
+
+export default Header;
+
+
+
+
+
+
+function logo_svg(icon_color="#fff") {
+    return <svg width="36px" height="36px" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0.00 0.00 735.00 725.00">
                         <path fill={icon_color} d="
                             M 84.95 129.62
                             Q 98.52 113.38 107.69 104.18
@@ -125,78 +214,18 @@ const Topbar = ({ children }) => {
                             Z"
                     />
                 </svg>
-                <span> Aniforum </span>
-            </div>
+}
 
-            <div className={styles.searchbar_container} id="searchbar">
-                <input
-                    type="text"
-                    className={styles.text_input}
-                    placeholder="pesquisar"
-                    onKeyDown={(e) => search(e)}
-                    onFocus={()=>{
-                        const s_bar = document.getElementById("searchbar");
-                        if(!s_bar)
-                            return;
-
-                        //s_bar.classList.add("focado");
-                        
-                        s_bar.style.background = "#ffffff";
-                        s_bar.style.borderRadius = "50px";
-                    }}
-
-                    onChange={(e)=>{
-
-                        const s_bar = document.getElementById("searchbar");
-                        if(!s_bar)
-                            return; 
-
-                        const value = e.target.value;
-                        if(value.length == 0) {
-                            (s_bar.childNodes[1] as HTMLElement).style.display = "none";
-                            (s_bar.childNodes[2] as HTMLElement).style.display = "none";
-                        } else {
-                            (s_bar.childNodes[1] as HTMLElement).style.display = "block";
-                            (s_bar.childNodes[2] as HTMLElement).style.display = "block";
-                        }
-                                         
-                    }}
-
-                    onBlur={(e)=>{
-
-                        const s_bar = document.getElementById("searchbar");
-                        if(!s_bar)
-                            return; 
-
-                        const value = e.target.value;
-                        if(value.length == 0){
-                            s_bar.style.background = "#ffffff7a";
-                            s_bar.style.borderRadius = "8px";
-
-                            (s_bar.childNodes[1] as HTMLElement).style.display = "none";
-                            (s_bar.childNodes[2] as HTMLElement).style.display = "none";
-                        }
-                        else {
-                            s_bar.style.background = "#ffffffcf";
-                        }                        
-                    }}
-                />
-                <button className={styles.search_button} onClick={()=>search(null)}>
-                    <img src={search_icon} alt="SVG" width="16px" height="16px" style={{ marginTop: "-2px" }}/>
-                </button>
-                <button className={styles.clear_bar} onClick={()=>clearBar()}>
-                    ✖
-                </button>
-            </div>
-
-
-            <div className={styles.teste} onClick={side_bar}>☰</div>
-        </div>
-        <div className={styles.children}>
-            { children }
-        </div>
-    </section>
-  );
-};
-
-export default Topbar;
+function formatarTextoParaQuery(texto) {
+    // Remove acentos e converte para letras minúsculas
+    const textoSemAcentos = texto
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+  
+    // Remove espaços e caracteres especiais, deixando apenas letras, números e vírgulas
+    const textoFormatado = textoSemAcentos
+      .replace(/[^a-zA-Z0-9,]+/g, "");
+  
+    return textoFormatado;
+  }

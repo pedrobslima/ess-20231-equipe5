@@ -15,9 +15,11 @@
 
 .children {
   padding-top: 80px;
-  max-width: 100vw;
-  height: 100vh;
+  /*max-width: 100vw;
+  height: 100vh;*/
   /*background-color: red;*/
+
+  height: calc(100vh - 56px);
 
   overflow-y: auto;
 }
@@ -28,11 +30,11 @@
   align-items: center;
   top: 0;
   
-  /*width: 100%;*/
-  width: calc(100% - 16px);
+  width: 100%;
+  /*width: calc(100% - 16px);*/
   height: 56px;
   background-color: var(--topbar-color);
-  position: absolute;
+  /*position: absolute;*/
 
   justify-content: space-between;
 
@@ -167,7 +169,6 @@ input:not(:placeholder-shown) {
   background-color: rgb(243, 243, 243);
 }
 */
-
 
 
 @media (max-width: 880px) {
