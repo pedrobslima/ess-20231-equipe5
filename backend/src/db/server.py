@@ -4,7 +4,7 @@ from db.SearchPost import SearchPost;
 #from CreatePost import CreatePost; # (PARA TESTES LOCAIS)
 #from SearchPost import SearchPost; # (PARA TESTES LOCAIS)
 from uuid import uuid4
-from base64 import b64decode
+from base64 import b64decode, b64encode
 import os
 
 class server_bd():
@@ -121,7 +121,13 @@ class server_bd():
                 'tags': [],
                 'title': main_post[2],
                 'body': main_post[3],
-                'image_name': main_post[4]}
+                'image_name': main_post[4],
+                'image_content': None}
+
+        if(post['image_name']):
+            img = open(f'src//db//images//{post["image_name"]}', 'rb')
+            post['image_content'] = (b64encode(img.read())).decode()
+            img.close()
 
         self._cur.execute(f'SELECT tag FROM Post_tag WHERE post = "{post_id}"')
 
