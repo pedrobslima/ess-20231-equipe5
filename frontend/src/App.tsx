@@ -10,11 +10,12 @@ import maisVistos from "./app/home/pages/maisVistos";
 import maisBemAvaliados from "./app/home/pages/maisBemAvaliados";
 import AnaliseTendencias from "./app/home/pages/AnaliseTendencias";
 import Search from "./app/home/pages/Search";
+import TelaInicial from "./app/home/pages/TelaInicial";
 
 const router = createBrowserRouter([
   {
     path: "*",
-    Component: CreateTest,
+    Component: TelaInicial,
   },
   {
     path: "/create-test",
@@ -65,7 +66,7 @@ export default function App() {
 
   return (
     <Header>
-      <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />;
+      <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />
     </Header>
   )
 }
