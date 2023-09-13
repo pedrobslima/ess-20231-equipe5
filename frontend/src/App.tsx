@@ -8,6 +8,7 @@ import EmAltaTrimestre from "./app/home/pages/EmAltaTrimestre";
 import EmAltaAno from "./app/home/pages/EmAltaAno";
 import maisVistos from "./app/home/pages/maisVistos";
 import maisBemAvaliados from "./app/home/pages/maisBemAvaliados";
+import postPage from "./app/home/pages/postPage";
 import AnaliseTendencias from "./app/home/pages/AnaliseTendencias";
 import Search from "./app/home/pages/Search";
 import TelaInicial from "./app/home/pages/TelaInicial";
@@ -54,12 +55,17 @@ const router = createBrowserRouter([
     Component: maisBemAvaliados,
   },
   {
+    path: "/post/:postId",
+    Component: postPage,
+  },
+  {
     path: "/analise-de-tendencias",
     Component: AnaliseTendencias,
-  },{
+  },
+  {
     path: "/search",
     Component: Search,
-  },
+  }
 ]);
 
 export default function App() {
