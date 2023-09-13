@@ -43,7 +43,9 @@ const Header = ({ children }) => {
   return (
     <section className={styles.container}>
         <div className={styles.topbar}>
-            <div className={styles.teste}>
+            <div className={styles.teste} onClick={ ()=>{
+                window.location.href = `/`;
+            }}>
                 {logo_svg()}
                 <span> Aniforum </span>
             </div>
