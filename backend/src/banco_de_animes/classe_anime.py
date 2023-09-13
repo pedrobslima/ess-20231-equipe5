@@ -80,25 +80,7 @@ def cont_dia():
         contador_aux = 0
         for data in anime.qtd_assistido:
             
-            if data.day == date.today().day:
+            if data == date.today():
                 contador_aux += 1
 
         anime.assistidos_periodo = contador_aux        
-
-'''def main(): #test block
-    for anime in lista_animes:
-        contador_aux = 0
-        for data in anime.qtd_assistido:
-            
-            
-            if abs((datetime.strptime(str(date.today()), '%Y-%m-%d') - datetime.strptime(str(data), '%Y-%m-%d')).days) <= 7:
-                contador_aux += 1
-                print(datetime.strptime(str(data), '%Y-%m-%d'))
-
-        anime.assistidos_periodo = contador_aux
-        print(contador_aux)
-
-
-if __name__ == "__main__":
-
-    main()'''

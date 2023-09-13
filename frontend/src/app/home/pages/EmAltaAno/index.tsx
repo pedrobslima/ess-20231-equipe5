@@ -5,18 +5,18 @@ import { useEffect, useRef, useState } from "react";
 
 
 
-const EmAlta = () => {
+const EmAltaAno = () => {
     const [animeList, setAnimelist] = useState([]);
 
-    const getAnimes = async() => {
+    const getAnimesAno = async() => {
 
-        const response = await axios.get('http://localhost:8000/emalta/dia');
+        const response = await axios.get('http://localhost:8000/emalta/ano');
         setAnimelist(response.data);
     }
 
     useEffect(() => {
         
-        getAnimes();
+        getAnimesAno();
 
     }, []);
 
@@ -25,26 +25,25 @@ const EmAlta = () => {
         <section>
             <div>
                 <h2>Em Alta</h2>
-                <div className="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">    
-                    
+                <div className="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                     <div className="btn-group me-2">
-                        <a href="#" className="btn btn-secondary active" aria-current="page">Dia</a>
+                        <a href="http://localhost:3000/emalta/dia" className="btn btn-secondary">Dia</a>
                         <a href="http://localhost:3000/emalta/semana" className="btn btn-secondary">Semana</a>
                         <a href="http://localhost:3000/emalta/trimestre" className="btn btn-secondary">Trimestre</a>
-                        <a href="http://localhost:3000/emalta/ano" className="btn btn-secondary">Ano</a>
+                        <a href="#" className="btn btn-secondary active" aria-current="page">Ano</a>
                     </div>
                     <div className="btn-group me-2">
-                    <a href="http://localhost:3000/analise-de-tendencias" className="btn btn-secondary me-md-2">↵ Voltar</a>
+                        <a href="http://localhost:3000/analise-de-tendencias" className="btn btn-secondary me-md-2">↵ Voltar</a>
                     </div>
                 </div>    
                 <table className="table">
-                    <caption>Em Alta no dia</caption>
+                <caption>Em Alta no ano</caption>
                 <thead className="table-light">    
                     <tr>
                         <th>Animes</th>
                         <th>Qtd. Assistidos</th>
                     </tr>
-                </thead>    
+                </thead>
                     <tbody className="table-group-divider">
                         {animeList.map((anime) => (
                             <tr key={(anime as any).id}>
@@ -59,4 +58,4 @@ const EmAlta = () => {
     )
 };
 
-export default EmAlta;
+export default EmAltaAno;

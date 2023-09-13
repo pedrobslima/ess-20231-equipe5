@@ -30,8 +30,8 @@ function maisBemAvaliados() {
         value={orderOption}
         onChange={handleOrderChange}
       >
-        <option value="decrescente">do maior para o menor</option>
-        <option value="crescente">do menor para o maior</option>
+        <option value="decrescente">Do maior para o menor</option>
+        <option value="crescente">Do menor para o maior</option>
       </select>
 
       <ul className="anime-list">
