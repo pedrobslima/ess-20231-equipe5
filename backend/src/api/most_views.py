@@ -3,6 +3,12 @@ from fastapi import APIRouter
 from banco_de_animes.classe_anime import lista_animes as anime_list
 
 # Funções
+def is_reverse(order_by):
+    if order_by == "crescente":
+        return False
+    else:
+        return True
+
 def get_days_back(time_period):
     # O time_period armazena quantos dias abrange o período selecionado
     # ele será subtraído da data atual para obter a data alvo
@@ -43,12 +49,6 @@ def select_dates_by_period(time_period, qtd_assistido_list):
     
 def order_most_views(order_by, max, time_period):
 
-    # Cria uma variável booleana que determina a forma de ordenação da lista
-    if order_by == "crescente":
-        descending = False
-    else:
-        descending = True
-
     # Quando não há querie de período, o frontend envia o time_period como uma string vazia, que deve ser convertida para None
     if time_period == '':
         time_period = None
@@ -59,7 +59,7 @@ def order_most_views(order_by, max, time_period):
         lista_mais_vistos.append({"name":anime.nome_anime,"views":len(select_dates_by_period(time_period, anime.qtd_assistido)), "img_url":anime.img_url})
     
     # Ordena a lista baseado na chave "views" de cada dicionário
-    lista_mais_vistos = sorted(lista_mais_vistos, key=lambda x: x["views"], reverse=descending)
+    lista_mais_vistos = sorted(lista_mais_vistos, key=lambda x: x["views"], reverse=is_reverse(order_by))
 
     return lista_mais_vistos[0:max]
 
