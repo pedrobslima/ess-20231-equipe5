@@ -4,6 +4,7 @@ import ListTests from "./app/home/pages/ListTests";
 import EmAlta from "./app/home/pages/EmAlta";
 import maisVistos from "./app/home/pages/maisVistos";
 import maisBemAvaliados from "./app/home/pages/maisBemAvaliados";
+import postPage from "./app/home/pages/postPage";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: "/mais-bem-avaliados",
     Component: maisBemAvaliados,
+  },
+  {
+    path: "/post/:postId",
+    Component: postPage,
   }
 ]);
 
