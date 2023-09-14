@@ -3,7 +3,7 @@ import { createContext, useState } from "react";
 
 interface UserContextProps {
   loggedUser: string;
-  setLoggedUser;
+  setLoggedUser: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const UserContext = createContext<UserContextProps>(
@@ -15,7 +15,7 @@ interface UserProviderProps {
 }
 
 export const UserProvider = ({ children }: UserProviderProps) => {
-  const [loggedUser, setLoggedUser] = useState('pedro12');
+  const [loggedUser, setLoggedUser] = useState<string>('pedro12');
 
   return (
     <UserContext.Provider

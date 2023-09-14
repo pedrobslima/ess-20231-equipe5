@@ -3,20 +3,22 @@ import { useState, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import { api } from '../../../../shared/services/ApiService';
+//import { ImgUpContext } from '../../context/ImgUpContext';
 
 function CreatePost() {
     const navigate = useNavigate();
     const { loggedUser } = useContext(UserContext);
+    //const { file, imagePreview, base64, name, onChange, _handleReaderLoaded, onFileSubmit, photoUpload, remove } = useContext(ImgUpContext);
     const [tagInput, setTagInput] = useState(''); // Para controlar o campo de entrada de tags
     const [post, setPost] = useState({
         user: loggedUser,
-        tags: ['Review', 'Vilao'],
+        tags: [] as string[],
         title: "",
         body: "",
-        img_name: undefined,
-        img_content: undefined
+        img_name: null as null | string,
+        img_content: null as null | string | ArrayBuffer
     });
-
+    //-----------------
     const handleChange = (event) => {
         const { name, value} = event.target;
         setPost({
@@ -25,6 +27,39 @@ function CreatePost() {
         });
         console.log(name + ': ' + value);
     };
+
+    const readImageAsBase64 = async (file) => {
+        const reader = new FileReader();
+      
+        reader.onloadend = (e) => {
+            if(e.target != null){
+                const base64Image = e.target.result;
+                setPost({
+                    ...post,
+                    img_name: file.name,
+                    img_content: base64Image
+                }); 
+            }
+        };
+      
+        reader.readAsDataURL(file);
+    };
+
+    const handleImageUpload = async (e) => {
+        const file = e.target.files[0];
+
+        if (file) {
+            readImageAsBase64(file);
+        }        
+    };
+
+    const removeFile = async () => {
+        setPost({
+            ...post,
+            img_name: null,
+            img_content: null
+        });
+    }
 
     const handleTagInputChange = (event) => {
         setTagInput(event.target.value);
@@ -59,11 +94,11 @@ function CreatePost() {
 
         setPost({
             user: loggedUser,
-            tags: ['Review', 'Vilao'],
+            tags: [],
             title: "",
             body: "",
-            img_name: undefined,
-            img_content: undefined
+            img_name: null,
+            img_content: null
         });
 
         navigate('/post/' + response.data.data.post_id); // abre tela do post criado
@@ -135,12 +170,14 @@ function CreatePost() {
                     <label>
                     Imagem:
                     <input
-                        type="text"
-                        name="img_name"
-                        value={post.img_name}
-                        onChange={handleChange}
-                    />
+                        type="file"
+                        accept=".jpef, .png, .jpg"
+                        onChange={handleImageUpload}
+                        />
                     </label>
+                    {post.img_name != null &&
+                        <button type="button" onClick={removeFile} >Remover</button>
+                    }
                 </div>
                 <button type="submit">Postar</button>
             </form>
