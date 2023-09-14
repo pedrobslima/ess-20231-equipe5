@@ -113,16 +113,13 @@ function formatQuery (texto) {
     return textoFormatado;
 }
 
-    
-
-
-
 const Header = ({children}) => {
         const queries = window.location.href.split("tags=")[1];
         let tags = '';
-    
         if (queries != null)
             tags = window.location.href.split("tags=")[1];
+    
+
 
         const navigate = useNavigate();
 
