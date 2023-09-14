@@ -25,8 +25,8 @@ def check_first_anime(context, anime_1: str, nota_1: float):
     nota_1 = float(nota_1)
 
     # Checa se está na lista
-    assert context["lista_de_animes_decrescente"][0]["nome"] == anime_1
-    assert context["lista_de_animes_decrescente"][0]["nota"] == nota_1
+    assert context["lista_de_animes_decrescente"][0]["name"] == anime_1
+    assert context["lista_de_animes_decrescente"][0]["rating"] == nota_1
 
     return context
 
@@ -36,10 +36,10 @@ def check_second_anime(context, anime_2: str, nota_2: float):
     nota_2 = float(nota_2)
 
     # Checa se está na lista
-    assert context["lista_de_animes_decrescente"][1]["nome"] == anime_2
-    assert context["lista_de_animes_decrescente"][1]["nota"] == nota_2
+    assert context["lista_de_animes_decrescente"][1]["name"] == anime_2
+    assert context["lista_de_animes_decrescente"][1]["rating"] == nota_2
     # Checa se a nota é menor que a do item anterior
-    assert context["lista_de_animes_decrescente"][1]["nota"] < context["lista_de_animes_decrescente"][0]["nota"]
+    assert context["lista_de_animes_decrescente"][1]["rating"] < context["lista_de_animes_decrescente"][0]["rating"]
 
     return context
 
@@ -49,10 +49,10 @@ def check_third_anime(context, anime_3: str, nota_3: float):
     nota_3 = float(nota_3)
     
     # Checa se está na lista
-    assert context["lista_de_animes_decrescente"][2]["nome"] == anime_3
-    assert context["lista_de_animes_decrescente"][2]["nota"] == nota_3
+    assert context["lista_de_animes_decrescente"][2]["name"] == anime_3
+    assert context["lista_de_animes_decrescente"][2]["rating"] == nota_3
     # Checa se a nota é menor que a do item anterior
-    assert context["lista_de_animes_decrescente"][2]["nota"] < context["lista_de_animes_decrescente"][1]["nota"]
+    assert context["lista_de_animes_decrescente"][2]["rating"] < context["lista_de_animes_decrescente"][1]["rating"]
 
     return context
 
@@ -72,8 +72,8 @@ def check_first_anime2(context, anime_1_cresc, nota_1_cresc):
     nota_1_cresc = float(nota_1_cresc)
 
     # Checa se está na lista
-    assert context["lista_de_animes_crescente"][0]["nome"] == anime_1_cresc
-    assert context["lista_de_animes_crescente"][0]["nota"] == nota_1_cresc
+    assert context["lista_de_animes_crescente"][0]["name"] == anime_1_cresc
+    assert context["lista_de_animes_crescente"][0]["rating"] == nota_1_cresc
 
     return context
 
@@ -83,10 +83,10 @@ def check_second_anime2(context, anime_2_cresc, nota_2_cresc):
     nota_2_cresc = float(nota_2_cresc)
 
     # Checa se está na lista
-    assert context["lista_de_animes_crescente"][1]["nome"] == anime_2_cresc
-    assert context["lista_de_animes_crescente"][1]["nota"] == nota_2_cresc
+    assert context["lista_de_animes_crescente"][1]["name"] == anime_2_cresc
+    assert context["lista_de_animes_crescente"][1]["rating"] == nota_2_cresc
     # Checa se a nota é maior que a do item anterior
-    assert context["lista_de_animes_crescente"][1]["nota"] > context["lista_de_animes_crescente"][0]["nota"]
+    assert context["lista_de_animes_crescente"][1]["rating"] > context["lista_de_animes_crescente"][0]["rating"]
 
     return context
 
@@ -96,10 +96,10 @@ def check_third_anime2(context, anime_3_cresc, nota_3_cresc):
     nota_3_cresc = float(nota_3_cresc)
     
     # Checa se está na lista
-    assert context["lista_de_animes_crescente"][2]["nome"] == anime_3_cresc
-    assert context["lista_de_animes_crescente"][2]["nota"] == nota_3_cresc
+    assert context["lista_de_animes_crescente"][2]["name"] == anime_3_cresc
+    assert context["lista_de_animes_crescente"][2]["rating"] == nota_3_cresc
     # Checa se a nota é maior que a do item anterior
-    assert context["lista_de_animes_crescente"][2]["nota"] > context["lista_de_animes_crescente"][1]["nota"]
+    assert context["lista_de_animes_crescente"][2]["rating"] > context["lista_de_animes_crescente"][1]["rating"]
 
 
 
@@ -134,8 +134,8 @@ def check_first_anime(context, qtd_itens: int, anime_1: str, nota_1: float):
     nota_1 = float(nota_1)
 
     # Checa se está na lista
-    assert context["lista_de_animes"][0]["nome"] == anime_1
-    assert context["lista_de_animes"][0]["nota"] == nota_1
+    assert context["lista_de_animes"][0]["name"] == anime_1
+    assert context["lista_de_animes"][0]["rating"] == nota_1
 
     return context
 
@@ -145,8 +145,8 @@ def check_second_anime(context, qtd_itens: int, anime_2: str, nota_2: float):
     nota_2 = float(nota_2)
 
     # Checa se está na lista
-    assert context["lista_de_animes"][1]["nome"] == anime_2
-    assert context["lista_de_animes"][1]["nota"] == nota_2
+    assert context["lista_de_animes"][1]["name"] == anime_2
+    assert context["lista_de_animes"][1]["rating"] == nota_2
 
     return context
 
@@ -156,8 +156,8 @@ def check_third_anime(context, qtd_itens: int, anime_3: str, nota_3: float):
     nota_3 = float(nota_3)
     
     # Checa se está na lista
-    assert context["lista_de_animes"][2]["nome"] == anime_3
-    assert context["lista_de_animes"][2]["nota"] == nota_3
+    assert context["lista_de_animes"][2]["name"] == anime_3
+    assert context["lista_de_animes"][2]["rating"] == nota_3
 
     return context
 
@@ -178,8 +178,8 @@ def check_first_anime2(context, anime_1: str, nota_1: float):
     nota_1 = float(nota_1)
 
     # Checa se está na lista
-    assert context["lista_de_animes"][0]["nome"] == anime_1
-    assert context["lista_de_animes"][0]["nota"] == nota_1
+    assert context["lista_de_animes"][0]["name"] == anime_1
+    assert context["lista_de_animes"][0]["rating"] == nota_1
 
     return context
 
@@ -189,8 +189,8 @@ def check_second_anime2(context, anime_2: str, nota_2: float):
     nota_2 = float(nota_2)
 
     # Checa se está na lista
-    assert context["lista_de_animes"][1]["nome"] == anime_2
-    assert context["lista_de_animes"][1]["nota"] == nota_2
+    assert context["lista_de_animes"][1]["name"] == anime_2
+    assert context["lista_de_animes"][1]["rating"] == nota_2
 
     return context
 
