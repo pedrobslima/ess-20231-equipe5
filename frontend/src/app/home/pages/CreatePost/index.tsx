@@ -3,6 +3,7 @@ import { useState, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import { api } from '../../../../shared/services/ApiService';
+import styles from "./index.module.css";
 //import { ImgUpContext } from '../../context/ImgUpContext';
 
 function CreatePost() {
@@ -112,78 +113,80 @@ function CreatePost() {
     };
 
     return (
-        <div className="Page">
-            <div className="user">
-                {loggedUser}
-            </div>
-            <form onSubmit={onSubmit}>
-                <div className="title">
-                    <label>
-                        Título:
-                        <input
-                            type="text"
-                            name="title"
-                            value={post.title}
-                            onChange={handleChange}
-                        />
-                    </label>
+        <section className={styles.container}>
+            <div className={styles.centralize}>
+                <div className={styles.user}>
+                    <span>user#</span>{loggedUser}
                 </div>
-                <div className="tags">
-                    <label>
-                        Tags:
-                        <input
-                            type="text"
-                            value={tagInput}
-                            onChange={handleTagInputChange}
-                        />
-                        <button type="button" onClick={addTag}>
-                            Adicionar
-                        </button>
-                    </label>
-                </div>
-                {post.tags.length > 0 && (
-                    <div>
-                        <ul>
-                            {post.tags.map((tag, index) => (
-                                <div key={index}>
-                                    <button
-                                        type="button"
-                                        onClick={() => removeTag(tag)}
-                                        >
-                                         X 
-                                    </button>
-                                    {tag}
-                                </div>
-                            ))}
-                        </ul>
+                <form onSubmit={onSubmit}>
+                    <div className="title">
+                        <label>
+                            Título:
+                            <input
+                                type="text"
+                                name="title"
+                                value={post.title}
+                                onChange={handleChange}
+                            />
+                        </label>
                     </div>
-                )}
-                <div className="body">
-                    <label>
-                        Corpo:
-                        <textarea
-                            name="body"
-                            value={post.body}
-                            onChange={handleChange}
-                        />
-                    </label>
-                </div>
-                <div className="image">
-                    <label>
-                    Imagem:
-                    <input
-                        type="file"
-                        accept=".jpef, .png, .jpg"
-                        onChange={uploadImage}
-                        />
-                    </label>
-                    {post.img_bytes != null &&
-                        <button type="button" onClick={removeFile} >Remover</button>
-                    }
-                </div>
-                <button type="submit">Postar</button>
-            </form>
-        </div>
+                    <div className="tags">
+                        <label>
+                            Tags:
+                            <input
+                                type="text"
+                                value={tagInput}
+                                onChange={handleTagInputChange}
+                            />
+                            <button type="button" onClick={addTag}>
+                                Adicionar
+                            </button>
+                        </label>
+                    </div>
+                    {post.tags.length > 0 && (
+                        <div>
+                            <ul>
+                                {post.tags.map((tag, index) => (
+                                    <div key={index}>
+                                        <button
+                                            type="button"
+                                            onClick={() => removeTag(tag)}
+                                            >
+                                            X 
+                                        </button>
+                                        {tag}
+                                    </div>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                    <div className="body">
+                        <label>
+                            Corpo:
+                            <textarea
+                                name="body"
+                                value={post.body}
+                                onChange={handleChange}
+                            />
+                        </label>
+                    </div>
+                    <div className="image">
+                        <label>
+                        Imagem:
+                        <input
+                            type="file"
+                            accept=".jpef, .png, .jpg"
+                            onChange={uploadImage}
+                            />
+                        </label>
+                        {post.img_bytes != null &&
+                            <button type="button" onClick={removeFile} >Remover</button>
+                        }
+                    </div>
+                    <button type="submit">Postar</button>
+                </form>
+            </div>
+        </section>
     );
 }
 

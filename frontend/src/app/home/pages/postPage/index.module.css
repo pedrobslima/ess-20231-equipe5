@@ -14,7 +14,7 @@
     justify-content: center;
     width: 90%;
     max-width: 700px;
-    padding: 40px 0;
+    padding: 40px 32px;
     background-color: white;
     border: 1px solid gray;
     border-radius: 8px;
@@ -33,4 +33,21 @@
 button {
     border: 1px gray solid;
     padding: 4px;
+}
+
+.header {
+    padding: 0 8px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; 
+}
+
+.comments {
+    margin-top: 8px;
+    display: flex;
+    height: fit-content;
+    width: 100%;
+    gap: 8px;
+    align-items: start;
 }
