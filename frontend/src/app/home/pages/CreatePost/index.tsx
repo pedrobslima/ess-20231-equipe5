@@ -15,10 +15,10 @@ function CreatePost() {
         tags: [] as string[],
         title: "",
         body: "",
-        img_name: null as null | string,
-        img_content: null as null | string | ArrayBuffer
+        img_filename: null as null | string,
+        img_bytes: null as null | any
     });
-    //-----------------
+    
     const handleChange = (event) => {
         const { name, value} = event.target;
         setPost({
@@ -28,36 +28,38 @@ function CreatePost() {
         console.log(name + ': ' + value);
     };
 
-    const readImageAsBase64 = async (file) => {
-        const reader = new FileReader();
-      
-        reader.onloadend = (e) => {
-            if(e.target != null){
-                const base64Image = e.target.result;
-                setPost({
-                    ...post,
-                    img_name: file.name,
-                    img_content: base64Image
-                }); 
-            }
-        };
-      
-        reader.readAsDataURL(file);
-    };
+    const convertBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+        
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            };
+        
+            fileReader.onerror = (error) => {
+                reject(error);
+            };
+        });
+    }
 
-    const handleImageUpload = async (e) => {
-        const file = e.target.files[0];
+    const uploadImage = async (event) => {
+        const file = event.target.files[0];
+        const base64 = await convertBase64(file);
 
-        if (file) {
-            readImageAsBase64(file);
-        }        
-    };
+        setPost({
+            ...post,
+            img_filename: file.name,
+            img_bytes: base64.split("base64,")[1]
+        });
+        console.log(file.name)
+    }
 
     const removeFile = async () => {
         setPost({
             ...post,
-            img_name: null,
-            img_content: null
+            img_filename: null,
+            img_bytes: null
         });
     }
 
@@ -97,8 +99,8 @@ function CreatePost() {
             tags: [],
             title: "",
             body: "",
-            img_name: null,
-            img_content: null
+            img_filename: null,
+            img_bytes: null
         });
 
         navigate('/post/' + response.data.data.post_id); // abre tela do post criado
@@ -172,10 +174,10 @@ function CreatePost() {
                     <input
                         type="file"
                         accept=".jpef, .png, .jpg"
-                        onChange={handleImageUpload}
+                        onChange={uploadImage}
                         />
                     </label>
-                    {post.img_name != null &&
+                    {post.img_bytes != null &&
                         <button type="button" onClick={removeFile} >Remover</button>
                     }
                 </div>
