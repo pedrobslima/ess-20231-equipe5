@@ -13,6 +13,9 @@ import AnaliseTendencias from "./app/home/pages/AnaliseTendencias";
 import Search from "./app/home/pages/Search";
 import TelaInicial from "./app/home/pages/TelaInicial";
 
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom" 
+
+
 const router = createBrowserRouter([
   {
     path: "*",
@@ -71,8 +74,17 @@ const router = createBrowserRouter([
 export default function App() {
 
   return (
-    <Header>
-      <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />
-    </Header>
-  )
+    <Router>
+      <Header>
+          <Routes>
+          {router.routes.map((route, index) => (
+            <Route
+              key={index}
+              path={route.path}
+              element={route.element}
+            />
+          ))}
+          </Routes>
+      </Header>
+    </Router>);
 }
