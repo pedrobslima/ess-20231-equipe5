@@ -1,31 +1,31 @@
 import styles from "./index.module.css";
-/*import { SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useContext, useEffect } from "react";
-import { HomeContext } from "../../context/HomeContext";
-import { TestFormSchema, TestFormType } from "../../forms/TestForm";
-import { Link } from "react-router-dom";
-import Button from "../../../../shared/components/Button";*/
 import Tag from "../../components/tag/index";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const Search = () => {
-  const queries = window.location.href.split("tags=")[1];
-  let tags = ['empty'];
+  
+  const location = useLocation();
+  const [tags, setTags] = useState([] as string[]);
+  
+  useEffect(() => {
+      const queries_ = window.location.href.split("tags=")[1];
 
-  if (queries != null)
-    tags = window.location.href.split("tags=")[1].split(",");
-
-  const conteudo = [
-    {},
-    {},
-  ];
+      if (queries_ != null) {
+        const tags_ = queries_.split(",");
+        setTags( tags_.filter(item => item !== ""));
+      } else {
+        setTags( []);
+      }
+      
+  }, [location]);
   
   return (
     <section className={styles.container}>
       <h1 className={styles.title}>Tela de Pesquisa</h1>
       <span>
-        pesquisou por:
-        {tags.map((tag) => { return <Tag tag={tag}/> })}
+        {(tags.length > 0) ? <span>pesquisou por: </span> : null}
+        {tags.map((tag, index) => { return <Tag key={index} tag={tag}/> })}
       </span>
     </section>
   );
