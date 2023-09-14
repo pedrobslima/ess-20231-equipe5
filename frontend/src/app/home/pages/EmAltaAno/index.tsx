@@ -10,7 +10,7 @@ const EmAltaAno = () => {
 
     const getAnimesAno = async() => {
 
-        const response = await axios.get('http://localhost:8000/emalta/ano');
+        const response = await axios.get('http://127.0.0.1:8000/emalta/ano');
         setAnimelist(response.data);
     }
 

@@ -10,7 +10,7 @@ const EmAltaTrimestre = () => {
 
     const getAnimesTrimestre = async() => {
 
-        const response = await axios.get('http://localhost:8000/emalta/trimestre');
+        const response = await axios.get('http://127.0.0.1:8000/emalta/trimestre');
         setAnimelist(response.data);
     }
 

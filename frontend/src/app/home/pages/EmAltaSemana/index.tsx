@@ -10,7 +10,7 @@ const EmAltaSemana = () => {
 
     const getAnimesSemana = async() => {
 
-        const response = await axios.get('http://localhost:8000/emalta/semana');
+        const response = await axios.get('http://127.0.0.1:8000/emalta/semana');
         setAnimelist(response.data);
     }
 
