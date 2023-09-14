@@ -1,23 +1,14 @@
 import styles from "./index.module.css";
 import search_icon from "/src/shared/assets/search-icon.svg";
-//import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 //import { withRouter } from "react-router-dom";
 //import { browserHistory } from 'react-router-dom';
 import React from "react";
 
-export default class Header extends React.Component {
-    //const Header = ({ children }) => {
 
-    constructor(props) {
-        super(props);
-    
-        this.state = {
-          icon_color: ("#fff")
-        }
-    }
-
-
-    logo_svg () {
+    function logo_svg () {
         //const fillcolor = this.props.icon_color;
         const fillcolor = "#fff";
             
@@ -108,7 +99,7 @@ export default class Header extends React.Component {
                     </svg>
     }
 
-    formatQuery (texto) {
+    function formatQuery (texto) {
         // Remove acentos e converte para letras minúsculas
         const textoSemAcentos = texto
           .normalize("NFD")
@@ -122,25 +113,31 @@ export default class Header extends React.Component {
         return textoFormatado;
     }
 
-    search(e) {
-        let el;
+    
 
-        if(e == null) {
-            const s_bar = document.getElementById("searchbar");
-            if(s_bar!=null)
-                el = (s_bar.childNodes[0] as HTMLInputElement);
-        } else {
-            if (!(e.key === 'Enter'))
-                return;
-            el = e.target;
+
+
+const Header = ({children}) => {
+
+        const navigate = useNavigate();
+
+
+        const search = (e) => {
+            let el;
+
+            if(e == null) {
+                const s_bar = document.getElementById("searchbar");
+                if(s_bar!=null)
+                    el = (s_bar.childNodes[0] as HTMLInputElement);
+            } else {
+                if (!(e.key === 'Enter'))
+                    return;
+                el = e.target;
+            }
+
+            const query = formatQuery(el.value);
+            navigate(`/search?tags=${query}`);
         }
-
-        const query = this.formatQuery(el.value);
-        window.location.href = `/search?tags=${query}`;
-        //this.props.location = `/search?tags=${query}`;
-    }
-
-    render() {        
            
         const side_bar = () => {
             window.alert("abrir sidebar");
@@ -161,19 +158,17 @@ export default class Header extends React.Component {
         return (
         <section className={styles.container}>
             <div className={styles.topbar}>
-                <div className={styles.teste} onClick={ ()=>{
-                    window.location.href = `/`;
-                }}>
-                    {this.logo_svg()}
+                <Link className={styles.teste} to="/" replace>
+                    {logo_svg()}
                     <span> Aniforum </span>
-                </div>
+                </Link>
 
                 <div className={styles.searchbar_container} id="searchbar">
                     <input
                         type="text"
                         className={styles.text_input}
                         placeholder="pesquisar"
-                        onKeyDown={(e) => this.search(e)}
+                        onKeyDown={(e) => search(e)}
                         onFocus={()=>{
                             const s_bar = document.getElementById("searchbar");
                             if(!s_bar)
@@ -233,10 +228,11 @@ export default class Header extends React.Component {
                 <div className={styles.teste} onClick={side_bar}> </div>
             </div>
             <div className={styles.children}>
-                { this.props.children }
-                {/* <h1>teste</h1>*/ }
+                { children }
             </div>
         </section>
         );
-    }
+    
 }
+
+export default Header;
