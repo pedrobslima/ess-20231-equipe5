@@ -10,7 +10,7 @@ const EmAlta = () => {
 
     const getAnimes = async() => {
 
-        const response = await axios.get('http://localhost:8000/emalta/dia');
+        const response = await axios.get('http://127.0.0.1:8000/emalta/dia');
         setAnimelist(response.data);
     }
 
@@ -29,12 +29,12 @@ const EmAlta = () => {
                     
                     <div className="btn-group me-2">
                         <a href="#" className="btn btn-secondary active" aria-current="page">Dia</a>
-                        <a href="http://localhost:3000/emalta/semana" className="btn btn-secondary">Semana</a>
-                        <a href="http://localhost:3000/emalta/trimestre" className="btn btn-secondary">Trimestre</a>
-                        <a href="http://localhost:3000/emalta/ano" className="btn btn-secondary">Ano</a>
+                        <a href="/emalta/semana" className="btn btn-secondary">Semana</a>
+                        <a href="/emalta/trimestre" className="btn btn-secondary">Trimestre</a>
+                        <a href="/emalta/ano" className="btn btn-secondary">Ano</a>
                     </div>
                     <div className="btn-group me-2">
-                    <a href="http://localhost:3000/analise-de-tendencias" className="btn btn-secondary me-md-2">↵ Voltar</a>
+                    <a href="/analise-de-tendencias" className="btn btn-secondary me-md-2">↵ Voltar</a>
                     </div>
                 </div>    
                 <table className="table">
