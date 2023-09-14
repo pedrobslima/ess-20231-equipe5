@@ -1,9 +1,39 @@
-:root {
-    /*
-    --topbar-color: #ffffffad;
-    --topbar-gradient: 25px;
-    */
-    --topbar-color: #000000ad;
-    --topbar-gradient: 0px;
-  }
-  
+
+  .container {
+    z-index: 50;
+    display: flex;
+    background-color: white;
+    opacity: 0.9;
+    border: gray 1px solid;
+    flex-direction: column;
+    width: 100%;
+    height: fit-content;
+    position: absolute;
+    top: 48px;
+    padding: 8px 0;
+    gap: 0px;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+
+}
+
+
+.tag {
+  display: flex;
+  padding: 8px;
+  color: black;
+  text-decoration: none;
+
+  background-color: transparent;
+  outline: 1px solid gray;
+}
+
+.clearButton {
+  margin-top: 8px;
+  text-decoration: underline;
+  border: none;
+  color: blue;
+}

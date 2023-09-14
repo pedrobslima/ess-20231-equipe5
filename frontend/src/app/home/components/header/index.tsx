@@ -2,6 +2,8 @@ import styles from "./index.module.css";
 import search_icon from "/src/shared/assets/search-icon.svg";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import RecentSearch from "../recentSearch";
+import { useEffect, useState } from "react";
 
 
 function logo_svg () {
@@ -120,22 +122,37 @@ function formatQuery (texto) {
     return textoFormatado;
 }
 
-function onfocus () {
-    const s_bar = document.getElementById("searchbar");
-    if(!s_bar)
-        return;
-    
-    s_bar.style.background = "#ffffff";
-    s_bar.style.borderRadius = "50px";
-}
-
 const Header = ({children}) => {
+        const navigate = useNavigate();
         const queries = window.location.href.split("tags=")[1];
         let tags = '';
         if (queries != null)
             tags = window.location.href.split("tags=")[1];
+
+        const [recentSearch, setRecents] = useState([] as string[]);
     
-        const navigate = useNavigate();
+        const setValueWithDelay = (value) => {
+            setTimeout(() => {
+                setRecents(value);
+            }, 300);
+          };
+
+        const onfocus = () => {
+            const s_bar = document.getElementById("searchbar");
+            if(!s_bar)
+                return;
+            
+            s_bar.style.background = "#ffffff";
+            s_bar.style.borderRadius = "50px";
+        
+            const storedSearches = localStorage.getItem("recentSearches");
+            if(storedSearches != null){
+                const temp1 = JSON.parse(storedSearches);
+                console.log(temp1);
+                //setRecents(temp1 as string[]);
+                setValueWithDelay(temp1 as string[]);
+            }
+        }
 
         const search = (e) => {
             let el;
@@ -151,6 +168,18 @@ const Header = ({children}) => {
             }
 
             const query = formatQuery(el.value);
+            const searching = query.split(",");
+
+            let storedSearches = localStorage.getItem("recentSearches");
+            console.log(storedSearches);
+
+            if(storedSearches != null) {
+                storedSearches = JSON.parse(storedSearches);
+                localStorage.setItem("recentSearches", JSON.stringify(searching.concat(storedSearches)));
+            } else {
+                localStorage.setItem("recentSearches", JSON.stringify(searching));
+            }
+
 
             if(query.length > 0 && query[0] != ',')
                 navigate(`/search?tags=${query}`);
@@ -172,7 +201,7 @@ const Header = ({children}) => {
 
             const s_bar = document.getElementById("searchbar");
             if(!s_bar)
-                return; 
+                return;
 
             const value = e.target.value;
             if(value.length == 0) {
@@ -186,6 +215,9 @@ const Header = ({children}) => {
         }
 
         const onblur = (e) => {
+            //setRecents([]);
+            setValueWithDelay([])
+
             const s_bar = document.getElementById("searchbar");
             if(!s_bar)
                 return; 
@@ -219,6 +251,7 @@ const Header = ({children}) => {
                             <img src={search_icon} alt="SVG" width="16px" height="16px" style={{ marginTop: "-2px" }}/>
                         </button>
                         <button className={styles.clear_bar} onClick={()=>clearBar()}> ✖ </button>
+                        {(recentSearch.length > 0) && <RecentSearch recents={recentSearch}/>}
                     </div>
 
                     <Link className={styles.post_button} to="/post" replace> {post_svg()} </Link>

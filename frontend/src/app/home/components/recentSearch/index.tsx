@@ -1,17 +1,23 @@
 import styles from "./index.module.css";
+import Item from "./item";
 
-const recentSearch = () => {
+const RecentSearch = ({recents=[]}) => {
 
-    /*const side_bar = () => {
-        window.alert("abrir sidebar");
-    }*/
-
+  const clear = () => {
+    localStorage.setItem("recentSearches", JSON.stringify([]));
+  }
     
   return (
     <section className={styles.container}>
-        <button></button>
+        {recents.map((tag, index) => {
+          return <Item key={index} tag={tag}/>
+        })}
+
+        <button className={styles.clearButton} onClick={clear}>
+          limpar
+        </button>
     </section>
   );
 };
 
-export default recentSearch;
+export default RecentSearch;
