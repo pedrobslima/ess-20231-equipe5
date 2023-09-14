@@ -254,7 +254,7 @@ const Header = ({children}) => {
                         {(recentSearch.length > 0) && <RecentSearch recents={recentSearch}/>}
                     </div>
 
-                    <Link className={styles.post_button} to="/post" replace> {post_svg()} </Link>
+                    <Link className={styles.post_button} to="/post/new_post" replace> {post_svg()} </Link>
                 </div>
                 
             </div>
