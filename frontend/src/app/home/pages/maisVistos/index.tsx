@@ -11,6 +11,11 @@ function MaisVistos() {
     const order_by = orderOption; // Usar a seleção do menu suspenso de ordenação como valor de "order_by"
     const max = parseInt(searchParams.get('max') || '10', 10);
     const t = timePeriodOption; // Usar a seleção do menu suspenso de período como valor de "t"
+
+    console.log(order_by);
+    console.log(t);
+    
+    //const apiUrl = `http://127.0.0.1:8000/mais-vistos/?order_by=${order_by}&max=${max}&t=${t}`;
     const apiUrl = `http://127.0.0.1:8000/mais-vistos/?order_by=${order_by}&max=${max}&t=${t}`;
 
     fetch(apiUrl)
