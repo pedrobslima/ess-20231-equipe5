@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { createContext, useState } from "react";
 
 interface UserContextProps {
-  loggedUser;
+  loggedUser: string;
   setLoggedUser;
 }
 
@@ -14,10 +14,14 @@ interface UserProviderProps {
   children: ReactNode;
 }
 
-export const PostProvider = ({ children }: UserProviderProps) => {
-  const [loggedUser, setLoggedUser] = useState("");
-  
+export const UserProvider = ({ children }: UserProviderProps) => {
+  const [loggedUser, setLoggedUser] = useState('pedro12');
+  //const [user, setUser] = useState(localStorage.getItem('user') || 'pedro12');
   // botar coisas
+  /*
+  useEffect(() => {
+    localStorage.setItem('user', loggedUser);
+  }, []);*/
 
   return (
     <UserContext.Provider

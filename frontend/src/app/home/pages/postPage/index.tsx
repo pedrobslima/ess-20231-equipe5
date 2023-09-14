@@ -22,8 +22,9 @@ function postPage() {
     console.log('postId: ' + postId) 
 
     function clck_new_comment(){
-        navigate('post/' + postId + '/new_comment', {state: {
-            og_postId: postId
+        navigate('/comments/' + postId + '/new_comment', {state: {
+            og_user: user,
+            og_body: body
         }});
     };
 

@@ -12,6 +12,7 @@ import postPage from "./app/home/pages/postPage";
 import AnaliseTendencias from "./app/home/pages/AnaliseTendencias";
 import Search from "./app/home/pages/Search";
 import TelaInicial from "./app/home/pages/TelaInicial";
+import CreateComment from "./app/home/pages/CreateComment";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom" 
 
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
   {
     path: "/post/:postId",
     Component: postPage,
+  },
+  {
+    path: "/comments/:postId/new_comment",
+    Component: CreateComment,
   },
   {
     path: "/analise-de-tendencias",
