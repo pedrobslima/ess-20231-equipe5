@@ -9,7 +9,11 @@ import Button from "../../../../shared/components/Button";*/
 import Tag from "../../components/tag/index";
 
 const Search = () => {
-  const tags = window.location.href.split("tags=")[1].split(",");
+  const queries = window.location.href.split("tags=")[1];
+  let tags = ['empty'];
+
+  if (queries != null)
+    tags = window.location.href.split("tags=")[1].split(",");
 
   const conteudo = [
     {},
