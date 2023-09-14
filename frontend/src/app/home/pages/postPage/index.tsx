@@ -7,7 +7,7 @@ import Comment from '../../components/Comment'
 //import { toBase64 } from "../../../../shared/services/base64.js";
 import './postPage.css';
 
-function postPage() {
+function PostPage() {
     //const { user, setUser, title, setTitle, tags, setTags, body, setBody, image, setImage, comments, setComments } = useContext(PostContext);
     const navigate = useNavigate();
     //const { loggedUser } = useContext(UserContext);
@@ -22,8 +22,9 @@ function postPage() {
     console.log('postId: ' + postId) 
 
     function clck_new_comment(){
-        navigate('post/' + postId + '/new_comment', {state: {
-            og_postId: postId
+        navigate('/comments/' + postId + '/new_comment', {state: {
+            og_user: user,
+            og_body: body
         }});
     };
 
@@ -90,4 +91,4 @@ function postPage() {
     );
 }
 
-export default postPage;
+export default PostPage;
