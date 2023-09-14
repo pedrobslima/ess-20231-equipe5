@@ -36,8 +36,8 @@ function PostPage() {
                 setTags(response.data.data.tags);
                 setTitle(response.data.data.title);
                 setBody(response.data.data.body);
-                setImgName(response.data.data.image_name);
-                //setImgContent(response.data.image_content);
+                setImgName(response.data.data.image_filename);
+                setImgContent(response.data.data.image_bytes);
                 setComments(response.data.data.comments);
             } catch (error) {
                 console.log('Erro: ' + error);
