@@ -1,0 +1,55 @@
+.container{
+  text-decoration: none;
+  height: 112px;
+
+  outline: 1px gray solid;
+  overflow-y: hidden;
+}
+
+.box {
+  background-color: white;
+  
+}
+
+.topbar {
+  padding: 4px 8px;
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+}
+
+.title {
+  font-size: 1.0rem;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  color: gray;
+  height: 20px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+}
+
+.user{
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  color: black;
+}
+
+.postBody {
+  font-size: 0.9rem;
+  height: 80px;
+  color: black;
+  flex: 1;
+
+  margin: 4px 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: justify;
+}

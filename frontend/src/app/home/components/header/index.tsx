@@ -99,6 +99,13 @@ function logo_svg () {
                 </svg>
 }
 
+function post_svg (color="#FFF") {
+   return <svg width="36px" height="36px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path fill={color} d="M20 2H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h3v3.767L13.277 18H20c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zm0 14h-7.277L9 18.233V16H4V4h16v12z"/>
+        <path fill={color} d="m13.803 9.189-1.399-1.398-3.869 3.864v1.399h1.399zm.327-3.123 1.398 1.399-1.066 1.066-1.399-1.398z"/>
+    </svg>
+}
+
 function formatQuery (texto) {
     // Remove acentos e converte para letras minúsculas
     const textoSemAcentos = texto
@@ -113,16 +120,22 @@ function formatQuery (texto) {
     return textoFormatado;
 }
 
+function onfocus () {
+    const s_bar = document.getElementById("searchbar");
+    if(!s_bar)
+        return;
+    
+    s_bar.style.background = "#ffffff";
+    s_bar.style.borderRadius = "50px";
+}
+
 const Header = ({children}) => {
         const queries = window.location.href.split("tags=")[1];
         let tags = '';
         if (queries != null)
             tags = window.location.href.split("tags=")[1];
     
-
-
         const navigate = useNavigate();
-
 
         const search = (e) => {
             let el;
@@ -143,10 +156,6 @@ const Header = ({children}) => {
                 navigate(`/search?tags=${query}`);
         }
            
-        const side_bar = () => {
-            window.alert("abrir sidebar");
-        }
-
         const clearBar = () => {
             const s_bar = document.getElementById("searchbar");
             if(!s_bar)
@@ -159,78 +168,62 @@ const Header = ({children}) => {
             s_bar.style.borderRadius = "8px";
         }
 
+        const onchange = (e)=>{
+
+            const s_bar = document.getElementById("searchbar");
+            if(!s_bar)
+                return; 
+
+            const value = e.target.value;
+            if(value.length == 0) {
+                (s_bar.childNodes[1] as HTMLElement).style.display = "none";
+                (s_bar.childNodes[2] as HTMLElement).style.display = "none";
+            } else {
+                (s_bar.childNodes[1] as HTMLElement).style.display = "block";
+                (s_bar.childNodes[2] as HTMLElement).style.display = "block";
+            }
+                                
+        }
+
+        const onblur = (e) => {
+            const s_bar = document.getElementById("searchbar");
+            if(!s_bar)
+                return; 
+
+            const value = e.target.value;
+            if(value.length == 0){
+                s_bar.style.background = "#ffffff7a";
+                s_bar.style.borderRadius = "8px";
+
+                (s_bar.childNodes[1] as HTMLElement).style.display = "none";
+                (s_bar.childNodes[2] as HTMLElement).style.display = "none";
+            }
+            else {
+                s_bar.style.background = "#ffffffcf";
+            }                        
+        }
+
         return (
         <section className={styles.container}>
             <div className={styles.topbar}>
-                <Link className={styles.teste} to="/" replace>
+                <Link className={styles.header_title} to="/" replace>
                     {logo_svg()}
                     <span> Aniforum </span>
                 </Link>
 
-                <div className={styles.searchbar_container} id="searchbar">
-                    <input
-                        type="text"
-                        className={styles.text_input}
-                        placeholder="pesquisar"
-                        onKeyDown={(e) => search(e)}
-                        defaultValue={tags}
-                        onFocus={()=>{
-                            const s_bar = document.getElementById("searchbar");
-                            if(!s_bar)
-                                return;
-                            
-                            s_bar.style.background = "#ffffff";
-                            s_bar.style.borderRadius = "50px";
-                        }}
-
-                        onChange={(e)=>{
-
-                            const s_bar = document.getElementById("searchbar");
-                            if(!s_bar)
-                                return; 
-
-                            const value = e.target.value;
-                            if(value.length == 0) {
-                                (s_bar.childNodes[1] as HTMLElement).style.display = "none";
-                                (s_bar.childNodes[2] as HTMLElement).style.display = "none";
-                            } else {
-                                (s_bar.childNodes[1] as HTMLElement).style.display = "block";
-                                (s_bar.childNodes[2] as HTMLElement).style.display = "block";
-                            }
-                                                
-                        }}
-
-                        onBlur={(e)=>{
-                            const s_bar = document.getElementById("searchbar");
-                            if(!s_bar)
-                                return; 
-
-                            const value = e.target.value;
-                            if(value.length == 0){
-                                s_bar.style.background = "#ffffff7a";
-                                s_bar.style.borderRadius = "8px";
-
-                                (s_bar.childNodes[1] as HTMLElement).style.display = "none";
-                                (s_bar.childNodes[2] as HTMLElement).style.display = "none";
-                            }
-                            else {
-                                s_bar.style.background = "#ffffffcf";
-                            }                        
-                        }}
-                    />
-
+                <div className={styles.search_post}>
                     
+                    <div className={styles.searchbar_container} id="searchbar">
+                        <input type="text" className={styles.text_input} placeholder="pesquisar" onKeyDown={(e) => search(e)} defaultValue={tags} onFocus={onfocus} onChange={onchange} onBlur={onblur}/>
+                        <button className={styles.search_button} onClick={()=>search(null)}>
+                            <img src={search_icon} alt="SVG" width="16px" height="16px" style={{ marginTop: "-2px" }}/>
+                        </button>
+                        <button className={styles.clear_bar} onClick={()=>clearBar()}> ✖ </button>
+                    </div>
 
-                    <button className={styles.search_button} onClick={()=>search(null)}>
-                        <img src={search_icon} alt="SVG" width="16px" height="16px" style={{ marginTop: "-2px" }}/>
-                    </button>
-                    <button className={styles.clear_bar} onClick={()=>clearBar()}>
-                        ✖
-                    </button>
+                    <Link className={styles.post_button} to="/post" replace> {post_svg()} </Link>
                 </div>
                 
-
-                <div className={styles.teste} onClick={side_bar}> </div>
             </div>
             <div className={styles.children}>
                 { children }
