@@ -3,7 +3,6 @@ import { useState, useContext, ChangeEvent, FormEvent } from 'react';
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import { api } from '../../../../shared/services/ApiService';
-import './CreateComment.css';
 
 function CreateComment() {
     const navigate = useNavigate();
@@ -21,26 +20,16 @@ function CreateComment() {
             user:loggedUser, 
             body: event.target.value
         });
-        console.log('Body: ' + comment.body);
-      };
+    };
 
-    const handleSubmit = (event: FormEvent) => {
-        event.preventDefault();
-
+    const handleSubmit = async () => {
         if (comment.body === '') {
             alert('Preencha o corpo do comentário.');
             return; // Impedir o envio se o corpo estiver em branco
         }
-
-        console.log('Body: ' + comment.body);
         
-        api.post(location.pathname, comment)
-            .then((response) => {
-                console.log('response: ' + response.data);
-            })
-            .catch((error) => {
-                console.error('Erro ao enviar o formulário: ', error);
-            });
+        const response = await api.post(location.pathname, comment);
+        console.log(response.data);
 
         setComment({
             user: loggedUser,
@@ -48,6 +37,11 @@ function CreateComment() {
         });
 
         navigate('/post/' + postId);
+    };   
+
+    const onSubmit = async (event: FormEvent) => {
+        event.preventDefault();
+        handleSubmit();
     };
 
     return (
@@ -64,7 +58,7 @@ function CreateComment() {
                 </div>
             </div>
             <div className="CommentBody">
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={onSubmit}>
                     <p>Comentário:</p>
                     <label>
                         <input

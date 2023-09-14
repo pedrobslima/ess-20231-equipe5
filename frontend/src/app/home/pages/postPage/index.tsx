@@ -7,7 +7,7 @@ import Comment from '../../components/Comment'
 //import { toBase64 } from "../../../../shared/services/base64.js";
 import './postPage.css';
 
-function postPage() {
+function PostPage() {
     //const { user, setUser, title, setTitle, tags, setTags, body, setBody, image, setImage, comments, setComments } = useContext(PostContext);
     const navigate = useNavigate();
     //const { loggedUser } = useContext(UserContext);
@@ -91,4 +91,4 @@ function postPage() {
     );
 }
 
-export default postPage;
+export default PostPage;

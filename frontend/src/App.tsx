@@ -8,10 +8,11 @@ import EmAltaTrimestre from "./app/home/pages/EmAltaTrimestre";
 import EmAltaAno from "./app/home/pages/EmAltaAno";
 import maisVistos from "./app/home/pages/maisVistos";
 import maisBemAvaliados from "./app/home/pages/maisBemAvaliados";
-import postPage from "./app/home/pages/postPage";
+import PostPage from "./app/home/pages/postPage";
 import AnaliseTendencias from "./app/home/pages/AnaliseTendencias";
 import Search from "./app/home/pages/Search";
 import TelaInicial from "./app/home/pages/TelaInicial";
+import CreatePost from "./app/home/pages/CreatePost";
 import CreateComment from "./app/home/pages/CreateComment";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom" 
@@ -60,7 +61,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/post/:postId",
-    Component: postPage,
+    Component: PostPage,
+  },
+  {
+    path: "/post/new_post",
+    Component: CreatePost,
   },
   {
     path: "/comments/:postId/new_comment",
