@@ -1,4 +1,5 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+
 import Header from "./app/home/components/header/index";
 import CreateTest from "./app/home/pages/CreateTest";
 import ListTests from "./app/home/pages/ListTests";
@@ -11,15 +12,17 @@ import maisBemAvaliados from "./app/home/pages/maisBemAvaliados";
 import postPage from "./app/home/pages/postPage";
 import AnaliseTendencias from "./app/home/pages/AnaliseTendencias";
 import Search from "./app/home/pages/Search";
-import TelaInicial from "./app/home/pages/TelaInicial";
+//import TelaInicial from "./app/home/pages/TelaInicial";
+import TelaInicial2 from "./app/home/pages/TelaInicial2";
 
+import { createBrowserRouter } from "react-router-dom";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom" 
 
 
 const router = createBrowserRouter([
   {
     path: "*",
-    Component: TelaInicial,
+    Component: TelaInicial2,
   },
   {
     path: "/create-test",
