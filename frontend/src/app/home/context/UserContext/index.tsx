@@ -16,12 +16,6 @@ interface UserProviderProps {
 
 export const UserProvider = ({ children }: UserProviderProps) => {
   const [loggedUser, setLoggedUser] = useState('pedro12');
-  //const [user, setUser] = useState(localStorage.getItem('user') || 'pedro12');
-  // botar coisas
-  /*
-  useEffect(() => {
-    localStorage.setItem('user', loggedUser);
-  }, []);*/
 
   return (
     <UserContext.Provider
