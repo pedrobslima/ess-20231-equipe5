@@ -2,8 +2,8 @@ import { ReactNode } from "react";
 import { createContext, useState } from "react";
 
 interface UserContextProps {
-  loggedUser;
-  setLoggedUser;
+  loggedUser: string;
+  setLoggedUser: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const UserContext = createContext<UserContextProps>(
@@ -14,10 +14,8 @@ interface UserProviderProps {
   children: ReactNode;
 }
 
-export const PostProvider = ({ children }: UserProviderProps) => {
-  const [loggedUser, setLoggedUser] = useState("");
-  
-  // botar coisas
+export const UserProvider = ({ children }: UserProviderProps) => {
+  const [loggedUser, setLoggedUser] = useState<string>('pedro12');
 
   return (
     <UserContext.Provider
