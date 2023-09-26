@@ -134,11 +134,12 @@ function CreatePost() {
                         <label>
                             Tags:
                             <input
+                                data-cy="input-tag"
                                 type="text"
                                 value={tagInput}
                                 onChange={handleTagInputChange}
                             />
-                            <button type="button" onClick={addTag}>
+                            <button type="button" data-cy="input-tag-button" onClick={addTag}>
                                 Adicionar
                             </button>
                         </label>
@@ -150,6 +151,8 @@ function CreatePost() {
                                     <div key={index}>
                                         <button
                                             type="button"
+                                            data-cy="remove-tag"
+                                            associated-tag={tag}
                                             onClick={() => removeTag(tag)}
                                             >
                                             X 
@@ -183,7 +186,7 @@ function CreatePost() {
                             <button type="button" onClick={removeFile} >Remover</button>
                         }
                     </div>
-                    <button type="submit">Postar</button>
+                    <button type="submit" data-cy="submit">Postar</button>
                 </form>
             </div>
         </section>
