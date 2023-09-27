@@ -73,7 +73,7 @@ function PostPage() {
                         </div>
                     )}
                     <div>
-                        <button className="CommentButton" onClick={clck_new_comment}>
+                        <button className="CommentButton" data-cy="comment-button" onClick={clck_new_comment}>
                             COMENTAR
                         </button>
                     </div>

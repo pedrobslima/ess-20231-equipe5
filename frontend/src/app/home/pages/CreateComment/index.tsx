@@ -63,11 +63,12 @@ function CreateComment() {
                     <label>
                         <input
                             type="text"
+                            data-cy="comment-draft-body"
                             value={comment.body}
                             onChange={handleChange}
                         />
                     </label>
-                    <button type="submit">Enviar</button>
+                    <button type="submit" data-cy="comment-submit">Enviar</button>
                 </form>
             </div>
         </div>
